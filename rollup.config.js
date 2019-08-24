@@ -15,8 +15,12 @@ export default {
     sourcemap: true,
     format: "iife",
     name: "app",
-    file: "public/bundle.js"
+    file: "public/bundle.js",
+    globals: {
+      crypto: "crypto"
+    }
   },
+  external: ["crypto"],
   plugins: [
     svelte({
       // enable run-time checks when not in production
