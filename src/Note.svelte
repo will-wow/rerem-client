@@ -19,14 +19,18 @@
 
   $: decryptedBody = Encrypt.decrypt(encryptedData);
 
-  function handleClick() {}
+  function handleClick() {
+    Api.post("/notes", {
+      body: encryptedData.encrypted
+    });
+  }
 </script>
 
 <form class="note">
   <textarea bind:value={body} />
   <div>pass: {password}</div>
   <div>hash: {hashedPassword}</div>
-  <div>encrypted: {encryptedData.encrypted || ''}</div>
-  <div>decrypted: {decryptedBody || ''}</div>
-  <button on:click={handleClick} />
+  <div>encrypted: {encryptedData.body}</div>
+  <div>decrypted: {decryptedBody.ok}</div>
+  <button type="button" on:click={handleClick} disabled={!body}>Create</button>
 </form>

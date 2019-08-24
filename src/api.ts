@@ -2,7 +2,7 @@ import axios, { Method, AxiosRequestConfig } from "axios";
 import { ok, error, ResultP } from "result-async";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000"
+  baseURL: "http://localhost:4000"
 });
 export { api as axios };
 

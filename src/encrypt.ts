@@ -1,7 +1,11 @@
 import forge from "node-forge";
+import {ok, error, Result} from 'result-async'
 
-export const encrypt = (text: string) => {
-  if (!text) return {};
+import * as Note from './note'
+
+export const encrypt = (text: string): Note.T => {
+  if (!text) return Note.EMPTY_NOTE;
+
   const key = forge.random.getBytesSync(16);
   const iv = forge.random.getBytesSync(16);
 
@@ -11,36 +15,30 @@ export const encrypt = (text: string) => {
   cipher.finish();
 
   const cipherText = cipher.output.getBytes();
-  console.log("en", { cipherText });
   const cipherText64 = forge.util.encode64(cipherText);
 
   return {
-    encrypted: cipherText64,
+    body: cipherText64,
     key,
     iv
   };
 };
 
 export const decrypt = ({
-  encrypted,
+  body,
   key,
   iv
-}: {
-  encrypted: string;
-  key: string;
-  iv: string;
-}) => {
-  if (!encrypted) return "";
-  console.log(encrypted);
-  const cipherText = forge.util.decode64(encrypted);
-  console.log("de", { cipherText });
+}: Note.T): Result<string, string> => {
+  if (!body) return ok("");
+  const cipherText = forge.util.decode64(body);
   const input = forge.util.createBuffer(cipherText);
 
   const decipher = forge.cipher.createDecipher("AES-CBC", key);
   decipher.start({ iv: iv });
   decipher.update(input);
-  decipher.finish();
-  // const result = decipher.finish(); // check 'result' for true/false
-  // outputs decrypted hex
-  return decipher.output.toString();
+  const success = decipher.finish();
+
+  if (!success) return error('bad key');
+
+  return ok(decipher.output.toString());
 };
