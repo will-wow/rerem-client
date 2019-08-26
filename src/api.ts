@@ -1,9 +1,30 @@
 import axios, { Method, AxiosRequestConfig } from "axios";
+import humps from "humps";
+import _ from "lodash";
 import { ok, error, ResultP } from "result-async";
 
+const normalizeTransformer = <T>(transformers: T | T[] | undefined): T[] => {
+  if (_.isArray(transformers)) return transformers;
+  if (_.isNil(transformers)) return [];
+  return [transformers];
+};
+
+const transformResponse = [
+  ...normalizeTransformer(axios.defaults.transformResponse),
+  humps.camelizeKeys
+];
+
+const transformRequest = [
+  humps.decamelizeKeys,
+  ...normalizeTransformer(axios.defaults.transformRequest)
+];
+
 const api = axios.create({
-  baseURL: "http://localhost:4000"
+  baseURL: "http://localhost:4000/api",
+  transformResponse,
+  transformRequest
 });
+
 export { api as axios };
 
 const wrapRequestInResult = async <Ok, Error>(

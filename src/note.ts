@@ -1,15 +1,33 @@
 type HexString = string;
+type EncryptedString = string;
 
-interface Note {
-  body: HexString;
-  key: HexString;
+export interface NoteEncryptionData {
+  body: EncryptedString;
+  decryptionKey: HexString;
   iv: HexString;
 }
 
-export type T = Note;
+export const EMPTY_ENCRYPTED_NOTE = {
+  body: "",
+  decryptionKey: "",
+  iv: ""
+};
 
-export const EMPTY_NOTE = {
-  body: '',
-  key: '',
-  iv: ''
+export interface NoteAccessData {
+  // server: string;
+  id: string;
+
+  viewKey: string;
+  editKey: string;
+}
+
+export interface NoteCreateRequest {
+  body: EncryptedString;
+  viewKeyHash: string;
+  editKeyHash: string;
+}
+
+export interface NoteResponse {
+  id: string;
+  body: EncryptedString;
 }

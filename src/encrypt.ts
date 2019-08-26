@@ -1,10 +1,10 @@
 import forge from "node-forge";
-import {ok, error, Result} from 'result-async'
+import { ok, error, Result } from "result-async";
 
-import * as Note from './note'
+import * as Note from "./note";
 
-export const encrypt = (text: string): Note.T => {
-  if (!text) return Note.EMPTY_NOTE;
+export const encrypt = (text: string): Note.NoteEncryptionData => {
+  if (!text) return Note.EMPTY_ENCRYPTED_NOTE;
 
   const key = forge.random.getBytesSync(16);
   const iv = forge.random.getBytesSync(16);
@@ -19,16 +19,16 @@ export const encrypt = (text: string): Note.T => {
 
   return {
     body: cipherText64,
-    key,
+    decryptionKey: key,
     iv
   };
 };
 
 export const decrypt = ({
   body,
-  key,
+  decryptionKey: key,
   iv
-}: Note.T): Result<string, string> => {
+}: Note.NoteEncryptionData): Result<string, string> => {
   if (!body) return ok("");
   const cipherText = forge.util.decode64(body);
   const input = forge.util.createBuffer(cipherText);
@@ -38,7 +38,7 @@ export const decrypt = ({
   decipher.update(input);
   const success = decipher.finish();
 
-  if (!success) return error('bad key');
+  if (!success) return error("bad key");
 
   return ok(decipher.output.toString());
 };
