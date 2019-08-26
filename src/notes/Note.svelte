@@ -1,5 +1,7 @@
 <script>
   import _ from "lodash";
+  import { onMount } from "svelte";
+
   import * as Crypto from "../crypto";
   import { fetchAndDecryptNote, updateNote } from "./note.ts";
   export let query;
@@ -23,7 +25,9 @@
     noteSavePromise = updateNote(note, accessData);
   }
 
-  $: fetchNoteFromQuery(accessData);
+  onMount(() => {
+    fetchNoteFromQuery(accessData);
+  });
 </script>
 
 <style>
