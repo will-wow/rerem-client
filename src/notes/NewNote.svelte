@@ -3,6 +3,7 @@
   import * as Api from "../api";
   import * as AccessKey from "../crypto/access-key";
   import * as Crypto from "../crypto";
+  import * as AccessData from "./access-data";
 
   export let note;
 
@@ -24,8 +25,8 @@
 
   let accessData = {};
 
-  $: editAccessParam = Crypto.objectToHex(accessData);
-  $: viewAccessParam = Crypto.objectToHex(_.omit(accessData, ["editKey"]));
+  $: editAccessParam = AccessData.toEditAccessParam(accessData);
+  $: viewAccessParam = AccessData.toViewAccessParam(accessData);
 
   function handleClick() {
     Api.post("/notes", {

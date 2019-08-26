@@ -4,16 +4,20 @@
 
   import * as Crypto from "../crypto";
   import { fetchAndDecryptNote, updateNote } from "./note.ts";
+
   export let query;
+  export let id;
 
   let note = { body: "" };
   let notePromise;
   let noteSavePromise;
 
   $: accessParam = query.access;
-  $: accessData = Crypto.objectFromHex(accessParam);
+  $: accessData = { ...Crypto.objectFromHex(accessParam), id };
   $: viewAccessData = _.omit(accessData, ["editKey"]);
   $: viewAccessParam = Crypto.objectToHex(viewAccessData);
+
+  $: console.log({ accessData, note });
 
   function fetchNoteFromQuery(accessData) {
     notePromise = fetchAndDecryptNote(accessData).then(
