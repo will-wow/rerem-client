@@ -1,15 +1,12 @@
 <script>
   export let onSubmit;
-  let user = {
+  const user = {
     username: "",
     password: ""
   };
 
   const handleSubmit = () => {
-    onSubmit({
-      username,
-      password
-    })
+    onSubmit(user);
   };
 </script>
 

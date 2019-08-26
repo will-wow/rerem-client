@@ -1,11 +1,7 @@
 <script>
-  import bcrypt from "bcryptjs";
-  import forge from "node-forge";
-
   import * as Api from "../api";
   import * as AccessKey from "../crypto/access-key";
   import * as Encrypt from "../crypto/encrypt";
-  import * as Note from "./note";
 
   export let note;
 
@@ -16,8 +12,6 @@
   AccessKey.createKey()
     .then(key => (viewKey = key))
     .then(() => AccessKey.hashKey(viewKey).then(hash => (viewHash = hash)));
-
-  $: console.log(viewKey, viewHash, bcrypt.compareSync(viewKey, viewHash));
 
   let editKey = "";
   let editHash = "";
@@ -42,12 +36,6 @@
         viewKey,
         editKey
       };
-
-      console.log({
-        ...accessData,
-        key: encryptedData.key,
-        iv: encryptedData.iv
-      });
 
       Api.post("/notes/lookup", {
         id: accessData.id,

@@ -27,7 +27,6 @@ export interface NoteCreateRequest {
 }
 
 export interface NoteLookupRequest {
-  id: string;
   viewKey: Crypto.Hex;
   editKey: Crypto.Hex;
 }
@@ -38,14 +37,14 @@ export interface NoteResponse {
 }
 
 const accessDataToRequest = (accessData: NoteAccessData): NoteLookupRequest =>
-  _.pick(accessData, ["id", "viewKey", "editKey"]);
+  _.pick(accessData, ["viewKey", "editKey"]);
 
 export const fetchNotes = (
   accessData: NoteAccessData[]
 ): ResultP<Note[], string> =>
   pipeAsync(accessData, fp.map(fetchAndDecryptNote), allOkAsync);
 
-const fetchAndDecryptNote = (
+export const fetchAndDecryptNote = (
   accessData: NoteAccessData
 ): ResultP<Note, string> => {
   return pipeAsync(accessData, fetchNote, okChain(decryptNote(accessData)));
@@ -54,22 +53,19 @@ const fetchAndDecryptNote = (
 export const fetchNote = (
   accessData: NoteAccessData
 ): ResultP<NoteResponse, string> =>
-  Api.post<NoteResponse, string>(
-    "/notes/lookup",
+  Api.get<NoteResponse, string>(
+    `/notes/${accessData.id}`,
     accessDataToRequest(accessData)
   );
 
 const decryptNote = (accessData: NoteAccessData) => (
   note: NoteResponse
 ): Result<Note, string> => {
-  console.log({ accessData, note });
   const result = Crypto.decrypt({
     body: note.body,
     key: accessData.decryptionKey,
     iv: accessData.decryptionIv
   });
-
-  console.log({ accessData, note, result });
 
   return result.map((body: string) => ({
     id: note.id,

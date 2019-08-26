@@ -1,9 +1,8 @@
 <script>
-  import * as Api from "../api.ts";
   import NoteSummary from "./NoteSummary.svelte";
   import { fetchNotes } from "./note";
 
-  let noteAccessData = [
+  const noteAccessData = [
     {
       id: "84f4d55f-cd9c-4766-ae66-15c618d4dc13",
       viewKey:

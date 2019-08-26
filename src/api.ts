@@ -14,15 +14,9 @@ const transformResponse = [
   humps.camelizeKeys
 ];
 
-const transformRequest = [
-  humps.decamelizeKeys,
-  ...normalizeTransformer(axios.defaults.transformRequest)
-];
-
 const api = axios.create({
   baseURL: "http://localhost:4000/api",
-  transformResponse,
-  transformRequest
+  transformResponse
 });
 
 export { api as axios };
@@ -34,8 +28,6 @@ const wrapRequestInResult = async <Ok, Error>(
     const request = await api.request(options);
     return ok(request.data);
   } catch (e) {
-    console.error(e.response);
-    console.error(e.request);
     return error(e.response.data);
   }
 };
@@ -44,7 +36,11 @@ const request = (method: Method, type: "data" | "params") => async <Ok, Error>(
   url: string,
   data?: any
 ): ResultP<Ok, Error> =>
-  wrapRequestInResult<Ok, Error>({ url, method, [type]: data });
+  wrapRequestInResult<Ok, Error>({
+    url,
+    method,
+    [type]: humps.decamelizeKeys(data)
+  });
 
 export const get = request("get", "params");
 export const post = request("post", "data");

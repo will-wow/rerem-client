@@ -8,6 +8,15 @@ export const toHex = (bytes: string): HexString => {
 };
 
 export const fromHex = (hex: HexString): string => {
-  console.log({ hex });
   return forge.util.hexToBytes(hex);
+};
+
+export const objectToHex = (object: any): HexString => {
+  const json = JSON.stringify(object);
+  return toHex(json);
+};
+
+export const objectFromHex = <T>(hex: HexString): T => {
+  const json = fromHex(hex);
+  return JSON.parse(json);
 };
