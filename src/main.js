@@ -15,8 +15,6 @@ page("/note", ctx => {
   app.$set({ component: Note, ...ctx });
 });
 
-page({ hashbang: true });
-
 page.start();
 
 export default app;

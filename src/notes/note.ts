@@ -58,14 +58,17 @@ export const fetchNote = (
     accessDataToRequest(accessData)
   );
 
-export const updateNote = (note: Note, accessData: NoteAccessData) => {
+export const updateNote = (
+  note: Note,
+  accessData: NoteAccessData
+): ResultP<NoteResponse, string> => {
   const encryptedData = Crypto.reEncrypt(
     note.body,
     accessData.decryptionKey,
     accessData.decryptionIv
   );
 
-  Api.put(`/notes/${accessData.id}`, {
+  return Api.put(`/notes/${accessData.id}`, {
     body: encryptedData.body,
     ...accessDataToRequest(accessData)
   });

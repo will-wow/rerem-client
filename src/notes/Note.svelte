@@ -1,12 +1,17 @@
 <script>
+  import _ from "lodash";
   import * as Crypto from "../crypto";
   import { fetchAndDecryptNote, updateNote } from "./note.ts";
   export let query;
 
   let note = { body: "" };
   let notePromise;
+  let noteSavePromise;
 
-  $: accessData = Crypto.objectFromHex(query.access);
+  $: accessParam = query.access;
+  $: accessData = Crypto.objectFromHex(accessParam);
+  $: viewAccessData = _.omit(accessData, ["editKey"]);
+  $: viewAccessParam = Crypto.objectToHex(viewAccessData);
 
   function fetchNoteFromQuery(query) {
     notePromise = fetchAndDecryptNote(accessData).then(
@@ -15,7 +20,7 @@
   }
 
   function handleSubmit() {
-    updateNote(note, accessData);
+    noteSavePromise = updateNote(note, accessData);
   }
 
   $: fetchNoteFromQuery(query);
@@ -32,10 +37,28 @@
   {#await notePromise}
     Loading
   {:then _}
-    <textarea bind:value={note.body} />
-    <button type="submit">Update</button>
-  {:catch foo}
-    Note failed to fetch: {foo}
+    {#if accessData.editKey}
+      <textarea bind:value={note.body} />
+      <button type="submit">Update</button>
+    {:else}
+      <div>{note.body}</div>
+    {/if}
+  {:catch error}
+    Note failed to fetch: {error}
   {/await}
 
+  {#if noteSavePromise}
+    {#await noteSavePromise}
+      Saving...
+    {:then _}
+      Saved!
+    {:catch error}
+      Error: {error}
+    {/await}
+  {/if}
+
+  <a href="/note#?access={viewAccessParam}" target="_blank">View Link</a>
+  {#if accessData.editKey}
+    <a href="/note#?access={accessParam}" target="_blank">Edit Link</a>
+  {/if}
 </form>
