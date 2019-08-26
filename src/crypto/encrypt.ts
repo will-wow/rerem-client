@@ -1,10 +1,24 @@
 import forge from "node-forge";
 import { ok, error, Result } from "result-async";
 
-import * as Note from "./note";
+import * as Hex from "./hex";
 
-export const encrypt = (text: string): Note.NoteEncryptionData => {
-  if (!text) return Note.EMPTY_ENCRYPTED_NOTE;
+export type EncryptedString = string;
+
+export interface EncryptedData {
+  body: EncryptedString;
+  key: Hex.T;
+  iv: Hex.T;
+}
+
+const EMPTY_ENCRYPTED_DATA: EncryptedData = {
+  body: "",
+  key: "",
+  iv: ""
+};
+
+export const encrypt = (text: string): EncryptedData => {
+  if (!text) return EMPTY_ENCRYPTED_DATA;
 
   const key = forge.random.getBytesSync(16);
   const iv = forge.random.getBytesSync(16);
@@ -19,22 +33,25 @@ export const encrypt = (text: string): Note.NoteEncryptionData => {
 
   return {
     body: cipherText64,
-    decryptionKey: key,
-    iv
+    key: Hex.toHex(key),
+    iv: Hex.toHex(iv)
   };
 };
 
 export const decrypt = ({
   body,
-  decryptionKey: key,
+  key,
   iv
-}: Note.NoteEncryptionData): Result<string, string> => {
+}: EncryptedData): Result<string, string> => {
   if (!body) return ok("");
   const cipherText = forge.util.decode64(body);
   const input = forge.util.createBuffer(cipherText);
 
-  const decipher = forge.cipher.createDecipher("AES-CBC", key);
-  decipher.start({ iv: iv });
+  const keyBytes = Hex.fromHex(key);
+  const ivBytes = Hex.fromHex(iv);
+
+  const decipher = forge.cipher.createDecipher("AES-CBC", keyBytes);
+  decipher.start({ iv: ivBytes });
   decipher.update(input);
   const success = decipher.finish();
 

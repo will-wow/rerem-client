@@ -1,24 +1,29 @@
 <script>
   import bcrypt from "bcryptjs";
   import forge from "node-forge";
-  import * as Api from "./api";
-  import * as AccessKey from "./access-key";
-  import * as Encrypt from "./encrypt";
+
+  import * as Api from "../api";
+  import * as AccessKey from "../crypto/access-key";
+  import * as Encrypt from "../crypto/encrypt";
   import * as Note from "./note";
+
+  export let note;
 
   let body = "";
 
   let viewKey = "";
-  AccessKey.createKey().then(key => (viewKey = key));
-
   let viewHash = "";
-  $: AccessKey.hashKey(viewKey).then(hash => (viewHash = hash));
+  AccessKey.createKey()
+    .then(key => (viewKey = key))
+    .then(() => AccessKey.hashKey(viewKey).then(hash => (viewHash = hash)));
+
+  $: console.log(viewKey, viewHash, bcrypt.compareSync(viewKey, viewHash));
 
   let editKey = "";
-  $: AccessKey.createKey().then(key => (editKey = key));
-
   let editHash = "";
-  AccessKey.hashKey(editKey).then(hash => (editHash = hash));
+  AccessKey.createKey()
+    .then(key => (editKey = key))
+    .then(() => AccessKey.hashKey(editKey).then(hash => (editHash = hash)));
 
   $: encryptedData = Encrypt.encrypt(body);
   $: decryptedBody = Encrypt.decrypt(encryptedData);
@@ -38,19 +43,12 @@
         editKey
       };
 
-      console.log({
-        ...accessData,
-        decryptionKey: forge.util.bytesToHex(encryptedData.decryptionKey),
-        decryptionIv: forge.util.bytesToHex(encryptedData.iv)
-      });
-
       Api.post("/notes/lookup", {
         id: accessData.id,
         viewKey: accessData.viewKey
       }).then(response => {
-        console.log(response);
         decryptedThroughApi = Encrypt.decrypt({
-          decryptionKey: encryptedData.decryptionKey,
+          key: encryptedData.key,
           iv: encryptedData.iv,
           body: response.ok.body
         });
@@ -61,6 +59,8 @@
 
 <form class="note">
   <textarea bind:value={body} />
+  <div>view_key: {viewKey}</div>
+  <div>view_hash: {viewHash}</div>
   <div>encrypted: {encryptedData.body}</div>
   <div>decrypted: {decryptedBody.ok}</div>
   <div>decrypted through API: {decryptedThroughApi.ok}</div>

@@ -1,5 +1,13 @@
 <script>
-  import Note from "./Note.svelte";
+  export let component, querystring, pathname, params, title, state, hash;
 </script>
 
-<Note />
+<main>
+  {#await component}
+    Loading...
+  {:then component}
+    {#if component}
+      <svelte:component this={component.default || component} {...params} />
+    {/if}
+  {/await}
+</main>
