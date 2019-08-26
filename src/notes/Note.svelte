@@ -57,8 +57,12 @@
     {/await}
   {/if}
 
-  <a href="/note#?access={viewAccessParam}" target="_blank">View Link</a>
+  <a href="/note/{accessData.id}#?access={viewAccessParam}" target="_blank">
+    View Link
+  </a>
   {#if accessData.editKey}
-    <a href="/note#?access={accessParam}" target="_blank">Edit Link</a>
+    <a href="/note{accessData.id}#?access={accessParam}" target="_blank">
+      Edit Link
+    </a>
   {/if}
 </form>

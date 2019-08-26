@@ -26,7 +26,7 @@ export default {
   plugins: [
     replace({
       "process.env.API": JSON.stringify(
-        production ? "" : "http://localhost:4000"
+        production ? "https://rerem.gigalixirapp.com" : "http://localhost:4000"
       )
     }),
     svelte({

@@ -1,7 +1,8 @@
 <script>
+  import _ from "lodash";
   import * as Api from "../api";
   import * as AccessKey from "../crypto/access-key";
-  import * as Encrypt from "../crypto/encrypt";
+  import * as Crypto from "../crypto";
 
   export let note;
 
@@ -19,11 +20,12 @@
     .then(key => (editKey = key))
     .then(() => AccessKey.hashKey(editKey).then(hash => (editHash = hash)));
 
-  $: encryptedData = Encrypt.encryptNew(body);
-  $: decryptedBody = Encrypt.decrypt(encryptedData);
-  $: decryptedThroughApi = { ok: "" };
+  $: encryptedData = Crypto.encryptNew(body);
 
-  let accessData = null;
+  let accessData = {};
+
+  $: editAccessParam = Crypto.objectToHex(accessData);
+  $: viewAccessParam = Crypto.objectToHex(_.omit(accessData, ["editKey"]));
 
   function handleClick() {
     Api.post("/notes", {
@@ -34,29 +36,26 @@
       accessData = {
         id: response.ok.id,
         viewKey,
-        editKey
+        editKey,
+        decryptionKey: encryptedData.key,
+        decryptionIv: encryptedData.iv
       };
-
-      Api.post("/notes/lookup", {
-        id: accessData.id,
-        viewKey: accessData.viewKey
-      }).then(response => {
-        decryptedThroughApi = Encrypt.decrypt({
-          key: encryptedData.key,
-          iv: encryptedData.iv,
-          body: response.ok.body
-        });
-      });
     });
   }
 </script>
 
 <form class="note">
   <textarea bind:value={body} />
-  <div>view_key: {viewKey}</div>
-  <div>view_hash: {viewHash}</div>
   <div>encrypted: {encryptedData.body}</div>
-  <div>decrypted: {decryptedBody.ok}</div>
-  <div>decrypted through API: {decryptedThroughApi.ok}</div>
   <button type="button" on:click={handleClick} disabled={!body}>Create</button>
+
+  {#if accessData.id}
+    <div>ID: {accessData.id}</div>
+    <a href="/note/{accessData.id}#?access={viewAccessParam}" target="_blank">
+      View Link
+    </a>
+    <a href="/note/{accessData.id}#?access={editAccessParam}" target="_blank">
+      Edit Link
+    </a>
+  {/if}
 </form>
