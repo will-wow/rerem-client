@@ -19,7 +19,7 @@
     .then(key => (editKey = key))
     .then(() => AccessKey.hashKey(editKey).then(hash => (editHash = hash)));
 
-  $: encryptedData = Encrypt.encrypt(body);
+  $: encryptedData = Encrypt.encryptNew(body);
   $: decryptedBody = Encrypt.decrypt(encryptedData);
   $: decryptedThroughApi = { ok: "" };
 

@@ -17,11 +17,24 @@ const EMPTY_ENCRYPTED_DATA: EncryptedData = {
   iv: ""
 };
 
-export const encrypt = (text: string): EncryptedData => {
-  if (!text) return EMPTY_ENCRYPTED_DATA;
+export const encryptNew = (text: string): EncryptedData => {
+  const keyBytes = forge.random.getBytesSync(16);
+  const ivBytes = forge.random.getBytesSync(16);
+  return encrypt(text, keyBytes, ivBytes);
+};
 
-  const key = forge.random.getBytesSync(16);
-  const iv = forge.random.getBytesSync(16);
+export const reEncrypt = (
+  text: string,
+  key: Hex.T,
+  iv: Hex.T
+): EncryptedData => {
+  const keyBytes = Hex.fromHex(key);
+  const ivBytes = Hex.fromHex(iv);
+  return encrypt(text, keyBytes, ivBytes);
+};
+
+const encrypt = (text: string, key: string, iv: string): EncryptedData => {
+  if (!text) return EMPTY_ENCRYPTED_DATA;
 
   const cipher = forge.cipher.createCipher("AES-CBC", key);
   cipher.start({ iv: iv });
@@ -44,11 +57,12 @@ export const decrypt = ({
   iv
 }: EncryptedData): Result<string, string> => {
   if (!body) return ok("");
-  const cipherText = forge.util.decode64(body);
-  const input = forge.util.createBuffer(cipherText);
 
   const keyBytes = Hex.fromHex(key);
   const ivBytes = Hex.fromHex(iv);
+
+  const cipherText = forge.util.decode64(body);
+  const input = forge.util.createBuffer(cipherText);
 
   const decipher = forge.cipher.createDecipher("AES-CBC", keyBytes);
   decipher.start({ iv: ivBytes });

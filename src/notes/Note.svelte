@@ -1,28 +1,41 @@
 <script>
-  import * as Crypto from "../crypto.ts";
-  import { fetchAndDecryptNote } from "./note.ts";
+  import * as Crypto from "../crypto";
+  import { fetchAndDecryptNote, updateNote } from "./note.ts";
   export let query;
 
   let note = { body: "" };
   let notePromise;
 
+  $: accessData = Crypto.objectFromHex(query.access);
+
   function fetchNoteFromQuery(query) {
-    const accessData = Crypto.objectFromHex(query.access);
     notePromise = fetchAndDecryptNote(accessData).then(
       data => (note = data.ok)
     );
   }
 
+  function handleSubmit() {
+    updateNote(note, accessData);
+  }
+
   $: fetchNoteFromQuery(query);
 </script>
 
-<form class="note">
+<style>
+  .note {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+
+<form class="note" on:submit={handleSubmit}>
   {#await notePromise}
     Loading
   {:then _}
-    <!-- <textarea value={note.body} /> -->
-    {note.body}
+    <textarea bind:value={note.body} />
+    <button type="submit">Update</button>
   {:catch foo}
     Note failed to fetch: {foo}
   {/await}
+
 </form>
