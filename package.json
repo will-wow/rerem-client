@@ -70,6 +70,6 @@
     "lint:types": "tsc",
     "test": "jest",
     "deploy": "npm-run-all lint build deploy-surge",
-    "deploy-surge": "surge public --domain https://your-domain-here.surge.sh"
+    "deploy-surge": "surge public --domain https://rerem.surge.sh"
   }
 }

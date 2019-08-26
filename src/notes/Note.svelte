@@ -13,7 +13,7 @@
   $: viewAccessData = _.omit(accessData, ["editKey"]);
   $: viewAccessParam = Crypto.objectToHex(viewAccessData);
 
-  function fetchNoteFromQuery(query) {
+  function fetchNoteFromQuery(accessData) {
     notePromise = fetchAndDecryptNote(accessData).then(
       data => (note = data.ok)
     );
@@ -23,7 +23,7 @@
     noteSavePromise = updateNote(note, accessData);
   }
 
-  $: fetchNoteFromQuery(query);
+  $: fetchNoteFromQuery(accessData);
 </script>
 
 <style>
