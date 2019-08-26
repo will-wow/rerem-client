@@ -1,8 +1,15 @@
 import _ from "lodash";
 import fp from "lodash/fp";
-import { ResultP, allOkAsync, pipeAsync } from "result-async";
+import { ResultP, Result, allOkAsync, pipeAsync, okChain } from "result-async";
 import * as Api from "../api";
 import * as Crypto from "../crypto";
+
+interface Note {
+  id: string;
+  body: string;
+}
+
+export type T = Note;
 
 export interface NoteAccessData {
   // server: string;
@@ -33,6 +40,17 @@ export interface NoteResponse {
 const accessDataToRequest = (accessData: NoteAccessData): NoteLookupRequest =>
   _.pick(accessData, ["id", "viewKey", "editKey"]);
 
+export const fetchNotes = (
+  accessData: NoteAccessData[]
+): ResultP<Note[], string> =>
+  pipeAsync(accessData, fp.map(fetchAndDecryptNote), allOkAsync);
+
+const fetchAndDecryptNote = (
+  accessData: NoteAccessData
+): ResultP<Note, string> => {
+  return pipeAsync(accessData, fetchNote, okChain(decryptNote(accessData)));
+};
+
 export const fetchNote = (
   accessData: NoteAccessData
 ): ResultP<NoteResponse, string> =>
@@ -41,7 +59,20 @@ export const fetchNote = (
     accessDataToRequest(accessData)
   );
 
-export const fetchNotes = (
-  accessData: NoteAccessData[]
-): ResultP<NoteResponse[], string> =>
-  pipeAsync(accessData, fp.map(fetchNote), allOkAsync);
+const decryptNote = (accessData: NoteAccessData) => (
+  note: NoteResponse
+): Result<Note, string> => {
+  console.log({ accessData, note });
+  const result = Crypto.decrypt({
+    body: note.body,
+    key: accessData.decryptionKey,
+    iv: accessData.decryptionIv
+  });
+
+  console.log({ accessData, note, result });
+
+  return result.map((body: string) => ({
+    id: note.id,
+    body
+  }));
+};

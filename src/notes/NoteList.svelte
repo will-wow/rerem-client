@@ -1,17 +1,17 @@
 <script>
   import * as Api from "../api.ts";
-  import Note from "./Note.svelte";
+  import NoteSummary from "./NoteSummary.svelte";
   import { fetchNotes } from "./note";
 
   let noteAccessData = [
     {
-      id: "42882a3b-4a6c-409c-9806-d72fc2c2b866",
+      id: "84f4d55f-cd9c-4766-ae66-15c618d4dc13",
       viewKey:
-        "1bd7711e648e01358640c85c7f5202584e3273ad284d163903fbadf5278352de",
+        "355eb79c38805ff3fdbc869a6a83ea03a49dfb2e5ad62c6e8ad7857b80844bbd",
       editKey:
-        "e4207ecd2621387036deeb6a4a181ed98c2e0617b9e9ad0a0e2f45009cbbd9e5",
-      decryptionKey: "749aef84f56aa982ce9573305266073a",
-      decryptionIv: "fa00533d5816ae9814c5e544ceb8ae5a"
+        "b4d4942bc4d556d4c7acedc32fbaf6429034375cac608a795a0ca2e96c698398",
+      decryptionKey: "38689cd6797f0c9f9e5dc54af663e68b",
+      decryptionIv: "e106e275752623f7bb3f5504cabb001f"
     }
   ];
 
@@ -25,7 +25,7 @@
     Loading
   {:then notes}
     {#each notes as note}
-      <Note {note} />
+      <NoteSummary {note} />
     {/each}
   {/await}
 </div>
