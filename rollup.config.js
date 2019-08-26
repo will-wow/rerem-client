@@ -1,4 +1,5 @@
 import svelte from "rollup-plugin-svelte";
+import replace from "rollup-plugin-replace";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import livereload from "rollup-plugin-livereload";
@@ -17,11 +18,17 @@ export default {
     name: "app",
     file: "public/bundle.js",
     globals: {
-      crypto: "crypto"
+      crypto: "crypto",
+      process: "process"
     }
   },
-  external: ["crypto"],
+  external: ["crypto", "process"],
   plugins: [
+    replace({
+      "process.env.API": JSON.stringify(
+        production ? "" : "http://localhost:4000"
+      )
+    }),
     svelte({
       // enable run-time checks when not in production
       dev: !production,

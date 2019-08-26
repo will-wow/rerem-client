@@ -1,3 +1,4 @@
+import "dotenv/config";
 import App from "./App.svelte";
 import NoteList from "./notes/NoteList.svelte";
 import Note from "./notes/Note.svelte";

@@ -15,7 +15,7 @@ const transformResponse = [
 ];
 
 const api = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: `${process.env.API}/api`,
   transformResponse
 });
 
