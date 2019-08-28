@@ -51,6 +51,7 @@
   <button type="button" on:click={handleClick} disabled={!body}>Create</button>
 
   {#if accessData.id}
+    {editAccessParam}
     <div>ID: {accessData.id}</div>
     <a href="/note/{accessData.id}#?access={viewAccessParam}" target="_blank">
       View Link

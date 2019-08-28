@@ -1,10 +1,10 @@
 import * as AccessKey from "./access-key";
 import * as Encrypt from "./encrypt";
-import * as Hex from "./hex";
+import * as Encoded from "./encoded";
 
-export type Hex = Hex.T;
+export type Encoded = Encoded.T;
 export type Hash = AccessKey.Hash;
-export type EncryptedString = Encrypt.EncryptedString;
+export type EncryptedString = Encrypt.Encrypted;
 
 export { encryptNew, reEncrypt, decrypt } from "./encrypt";
-export { toHex, fromHex, objectFromHex, objectToHex } from "./hex";
+export { encode, decode, encodeObject, decodeObject } from "./encoded";

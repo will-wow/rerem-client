@@ -9,7 +9,7 @@ describe("Api", () => {
 
   beforeEach(() => {
     mockApi = new MockAdapter(Api.axios);
-    mockApi.onGet("http://localhost:5000/api/notes").reply(() => [200, [note]]);
+    mockApi.onGet("/api/notes").reply(() => [200, [note]]);
   });
 
   afterEach(() => {

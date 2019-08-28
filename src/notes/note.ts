@@ -19,8 +19,8 @@ export interface NoteCreateRequest {
 }
 
 export interface NoteLookupRequest {
-  viewKey: Crypto.Hex;
-  editKey: Crypto.Hex;
+  viewKey: Crypto.Encoded;
+  editKey: Crypto.Encoded;
 }
 
 export interface NoteResponse {

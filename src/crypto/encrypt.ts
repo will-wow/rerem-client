@@ -1,14 +1,14 @@
 import forge from "node-forge";
 import { ok, error, Result } from "result-async";
 
-import * as Hex from "./hex";
+import * as Encoded from "./encoded";
 
-export type EncryptedString = string;
+export type Encrypted = string;
 
 export interface EncryptedData {
-  body: EncryptedString;
-  key: Hex.T;
-  iv: Hex.T;
+  body: Encrypted;
+  key: Encoded.T;
+  iv: Encoded.T;
 }
 
 const EMPTY_ENCRYPTED_DATA: EncryptedData = {
@@ -20,34 +20,39 @@ const EMPTY_ENCRYPTED_DATA: EncryptedData = {
 export const encryptNew = (text: string): EncryptedData => {
   const keyBytes = forge.random.getBytesSync(16);
   const ivBytes = forge.random.getBytesSync(16);
+
+  // console.log({ keyBytes, ivBytes });
+  
   return encrypt(text, keyBytes, ivBytes);
 };
 
 export const reEncrypt = (
   text: string,
-  key: Hex.T,
-  iv: Hex.T
+  key: Encoded.T,
+  iv: Encoded.T
 ): EncryptedData => {
-  const keyBytes = Hex.fromHex(key);
-  const ivBytes = Hex.fromHex(iv);
+  const keyBytes = Encoded.decode(key);
+  const ivBytes = Encoded.decode(iv);
+
   return encrypt(text, keyBytes, ivBytes);
 };
 
-const encrypt = (text: string, key: string, iv: string): EncryptedData => {
+const encrypt = (text: string, keyBytes: string, ivBytes: string): EncryptedData => {
   if (!text) return EMPTY_ENCRYPTED_DATA;
 
-  const cipher = forge.cipher.createCipher("AES-CBC", key);
-  cipher.start({ iv: iv });
+  const cipher = forge.cipher.createCipher("AES-CBC", keyBytes);
+  cipher.start({ iv: ivBytes });
   cipher.update(forge.util.createBuffer(text));
   cipher.finish();
 
   const cipherText = cipher.output.getBytes();
-  const cipherText64 = forge.util.encode64(cipherText);
+
+  // console.log({ keyBytes, ivBytes, cipherText });
 
   return {
-    body: cipherText64,
-    key: Hex.toHex(key),
-    iv: Hex.toHex(iv)
+    body: Encoded.encode(cipherText),
+    key: Encoded.encode(keyBytes),
+    iv: Encoded.encode(ivBytes)
   };
 };
 
@@ -58,12 +63,13 @@ export const decrypt = ({
 }: EncryptedData): Result<string, string> => {
   if (!body) return ok("");
 
-  const keyBytes = Hex.fromHex(key);
-  const ivBytes = Hex.fromHex(iv);
+  const keyBytes = Encoded.decode(key);
+  const ivBytes = Encoded.decode(iv);
+  const cipherText = Encoded.decode(body);
 
-  const cipherText = forge.util.decode64(body);
+  // console.log({ keyBytes, ivBytes, cipherText });
+
   const input = forge.util.createBuffer(cipherText);
-
   const decipher = forge.cipher.createDecipher("AES-CBC", keyBytes);
   decipher.start({ iv: ivBytes });
   decipher.update(input);

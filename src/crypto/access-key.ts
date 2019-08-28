@@ -1,17 +1,17 @@
 import bcrypt from "bcryptjs";
 import forge from "node-forge";
 
-import * as Hex from "./hex";
+import * as Encoded from "./encoded";
 
 export type Hash = string;
 
-export const createKey = (): Promise<Hex.T> =>
+export const createKey = (): Promise<Encoded.T> =>
   new Promise(resolve => {
-    const bytesToHex: any = (_error: any, bytes: string): void => {
-      resolve(Hex.toHex(bytes));
+    const encodeBytes: any = (_error: any, bytes: string): void => {
+      resolve(Encoded.encode(bytes));
     };
 
-    forge.random.getBytes(32, bytesToHex);
+    forge.random.getBytes(32, encodeBytes);
   });
 
-export const hashKey = (key: Hex.T): Promise<Hash> => bcrypt.hash(key, 10);
+export const hashKey = (key: string): Promise<Hash> => bcrypt.hash(key, 10);

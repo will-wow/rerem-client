@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
 
   import * as Crypto from "../crypto";
+  import * as AccessData from "./access-data";
   import { fetchAndDecryptNote, updateNote } from "./note.ts";
 
   export let query;
@@ -13,9 +14,9 @@
   let noteSavePromise;
 
   $: accessParam = query.access;
-  $: accessData = { ...Crypto.objectFromHex(accessParam), id };
-  $: viewAccessData = _.omit(accessData, ["editKey"]);
-  $: viewAccessParam = Crypto.objectToHex(viewAccessData);
+  $: accessData = AccessData.decodeAccessParams(accessParam, id)
+  $: viewAccessData = AccessData.toViewAccessParam(accessData)
+  $: viewAccessParam = AccessData.toEditAccessParam(accessData)
 
   $: console.log({ accessData, note });
 
