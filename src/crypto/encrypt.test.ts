@@ -6,9 +6,11 @@ describe("encrypt", () => {
     it("works both ways", () => {
       const data = "hi";
 
-      const encrypted = Encrypt.encryptNew(data);
+      const { key, iv } = Encrypt.createEncryptionKey();
 
-      expect(Encrypt.decrypt(encrypted)).toEqual(ok(data));
+      const encrypted = Encrypt.encrypt(data, key, iv);
+
+      expect(Encrypt.decrypt(encrypted, key, iv)).toEqual(ok(data));
     });
   });
 });

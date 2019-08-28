@@ -6,33 +6,23 @@
   import * as AccessData from "./access-data";
   import { fetchAndDecryptNote, updateNote } from "./note.ts";
 
-  export let query;
-  export let id;
+  export let note;
+  export let accessData;
+  export let onSubmit;
 
-  let note = { body: "" };
-  let notePromise;
+  $: viewAccessParam = AccessData.toViewAccessParam(accessData);
+  $: editAccessParam = AccessData.toEditAccessParam(accessData);
+
   let noteSavePromise;
+  const handleSubmit = async event => {
+    event.preventDefault();
 
-  $: accessParam = query.access;
-  $: accessData = AccessData.decodeAccessParams(accessParam, id)
-  $: viewAccessData = AccessData.toViewAccessParam(accessData)
-  $: viewAccessParam = AccessData.toEditAccessParam(accessData)
+    noteSavePromise = onSubmit(note, accessData);
 
-  $: console.log({ accessData, note });
-
-  function fetchNoteFromQuery(accessData) {
-    notePromise = fetchAndDecryptNote(accessData).then(
-      data => (note = data.ok)
-    );
-  }
-
-  function handleSubmit() {
-    noteSavePromise = updateNote(note, accessData);
-  }
-
-  onMount(() => {
-    fetchNoteFromQuery(accessData);
-  });
+    const response = await noteSavePromise;
+    note.id = response.ok.id;
+    accessData.id = response.ok.id;
+  };
 </script>
 
 <style>
@@ -43,18 +33,12 @@
 </style>
 
 <form class="note" on:submit={handleSubmit}>
-  {#await notePromise}
-    Loading
-  {:then _}
-    {#if accessData.editKey}
-      <textarea bind:value={note.body} />
-      <button type="submit">Update</button>
-    {:else}
-      <div>{note.body}</div>
-    {/if}
-  {:catch error}
-    Note failed to fetch: {error}
-  {/await}
+  {#if accessData.editKey}
+    <textarea bind:value={note.body} />
+    <button type="submit">{accessData.id ? 'Update' : 'Create'}</button>
+  {:else}
+    <div>{note.body}</div>
+  {/if}
 
   {#if noteSavePromise}
     {#await noteSavePromise}
@@ -66,12 +50,14 @@
     {/await}
   {/if}
 
-  <a href="/note/{accessData.id}#?access={viewAccessParam}" target="_blank">
-    View Link
-  </a>
-  {#if accessData.editKey}
-    <a href="/note{accessData.id}#?access={accessParam}" target="_blank">
-      Edit Link
+  {#if accessData.id}
+    <a href="/note/{note.id}#?access={viewAccessParam}" target="_blank">
+      View Link
     </a>
+    {#if accessData.editKey}
+      <a href="/note/{accessData.id}#?access={editAccessParam}" target="_blank">
+        Edit Link
+      </a>
+    {/if}
   {/if}
 </form>

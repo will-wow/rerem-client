@@ -11,34 +11,25 @@ export interface EncryptedData {
   iv: Encoded.T;
 }
 
-const EMPTY_ENCRYPTED_DATA: EncryptedData = {
-  body: "",
-  key: "",
-  iv: ""
-};
-
-export const encryptNew = (text: string): EncryptedData => {
+export const createEncryptionKey = () => {
   const keyBytes = forge.random.getBytesSync(16);
   const ivBytes = forge.random.getBytesSync(16);
 
-  // console.log({ keyBytes, ivBytes });
-  
-  return encrypt(text, keyBytes, ivBytes);
+  return {
+    key: Encoded.encode(keyBytes),
+    iv: Encoded.encode(ivBytes)
+  };
 };
 
-export const reEncrypt = (
+export const encrypt = (
   text: string,
   key: Encoded.T,
   iv: Encoded.T
-): EncryptedData => {
+): Encrypted => {
+  if (!text) return '';
+
   const keyBytes = Encoded.decode(key);
   const ivBytes = Encoded.decode(iv);
-
-  return encrypt(text, keyBytes, ivBytes);
-};
-
-const encrypt = (text: string, keyBytes: string, ivBytes: string): EncryptedData => {
-  if (!text) return EMPTY_ENCRYPTED_DATA;
 
   const cipher = forge.cipher.createCipher("AES-CBC", keyBytes);
   cipher.start({ iv: ivBytes });
@@ -47,27 +38,19 @@ const encrypt = (text: string, keyBytes: string, ivBytes: string): EncryptedData
 
   const cipherText = cipher.output.getBytes();
 
-  // console.log({ keyBytes, ivBytes, cipherText });
-
-  return {
-    body: Encoded.encode(cipherText),
-    key: Encoded.encode(keyBytes),
-    iv: Encoded.encode(ivBytes)
-  };
+  return Encoded.encode(cipherText);
 };
 
-export const decrypt = ({
-  body,
-  key,
-  iv
-}: EncryptedData): Result<string, string> => {
+export const decrypt = (
+  body: Encrypted,
+  key: Encoded.T,
+  iv: Encoded.T
+): Result<string, string> => {
   if (!body) return ok("");
 
   const keyBytes = Encoded.decode(key);
   const ivBytes = Encoded.decode(iv);
   const cipherText = Encoded.decode(body);
-
-  // console.log({ keyBytes, ivBytes, cipherText });
 
   const input = forge.util.createBuffer(cipherText);
   const decipher = forge.cipher.createDecipher("AES-CBC", keyBytes);

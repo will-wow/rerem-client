@@ -6,5 +6,6 @@ export type Encoded = Encoded.T;
 export type Hash = AccessKey.Hash;
 export type EncryptedString = Encrypt.Encrypted;
 
-export { encryptNew, reEncrypt, decrypt } from "./encrypt";
-export { encode, decode, encodeObject, decodeObject } from "./encoded";
+export * from "./encrypt";
+export * from "./encoded";
+export * from "./access-key";

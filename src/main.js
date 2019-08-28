@@ -1,6 +1,6 @@
 import App from "./App.svelte";
 // import NoteList from "./notes/NoteList.svelte";
-import Note from "./notes/Note.svelte";
+import EditNote from "./notes/EditNote.svelte";
 import NewNote from "./notes/NewNote.svelte";
 import page from "page";
 
@@ -13,7 +13,7 @@ const app = new App({
 // });
 
 page("/note/:id", ctx => {
-  app.$set({ component: Note, ...ctx });
+  app.$set({ component: EditNote, ...ctx });
 });
 
 page("/", ctx => {

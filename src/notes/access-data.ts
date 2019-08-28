@@ -6,7 +6,7 @@ export type T = NoteAccessData;
 
 export interface NoteAccessData {
   // server: string;
-  id: string;
+  id?: string;
   decryptionKey: Crypto.Encoded;
   decryptionIv: Crypto.Encoded;
   viewKey: Crypto.Encoded;
@@ -18,6 +18,20 @@ const SHORT_NAMES = {
   decryptionIv: "i",
   viewKey: "v",
   editKey: "e"
+};
+
+export const generateKeys = async (): Promise<NoteAccessData> => {
+  const viewKey = await Crypto.createKey();
+  const editKey = await Crypto.createKey();
+
+  const { key: decryptionKey, iv: decryptionIv } = Crypto.createEncryptionKey();
+
+  return {
+    decryptionKey,
+    decryptionIv,
+    viewKey,
+    editKey
+  };
 };
 
 export const toViewAccessParam = (accessData: NoteAccessData) => {
