@@ -1,5 +1,6 @@
 <script>
   import queryString from "query-string";
+  import { onMount } from "svelte";
 
   import Nav from "user/Nav.svelte";
   import * as Directory from "user/directory.ts";
@@ -8,21 +9,22 @@
 
   $: query = queryString.parse(querystring);
 
-  const loginInPromie = Directory.logInFromStorage();
+  let loginInPromie;
+  onMount(() => {
+    loginInPromie = Directory.logInFromStorage();
+  });
 </script>
 
 <div>
   {#if component}
-    <Nav />
-    <main>
-      {#await loginInPromie then _}
-        {#if component}
-          <svelte:component
-            this={component.default || component}
-            {...params}
-            {query} />
-        {/if}
-      {/await}
-    </main>
+    {#await loginInPromie then _}
+      <Nav />
+      <main>
+        <svelte:component
+          this={component.default || component}
+          {...params}
+          {query} />
+      </main>
+    {/await}
   {/if}
 </div>
