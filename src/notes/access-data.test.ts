@@ -4,7 +4,7 @@ import * as AccessData from "./access-data";
 describe("AccessData", () => {
   const accessData: AccessData.T = {
     id: "abc",
-    decryptionKey: "key",
+    encryptionKey: "key",
     decryptionIv: "iv",
     viewKey: "view",
     editKey: "edit"

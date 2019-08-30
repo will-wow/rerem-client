@@ -7,28 +7,26 @@ export type T = NoteAccessData;
 export interface NoteAccessData {
   // server: string;
   id?: string;
-  decryptionKey: Crypto.Encoded;
-  decryptionIv: Crypto.Encoded;
+  encryptionKey: Crypto.Encoded;
   viewKey: Crypto.Encoded;
   editKey: Crypto.Encoded;
 }
 
 const SHORT_NAMES = {
-  decryptionKey: "k",
-  decryptionIv: "i",
+  encryptionKey: "k",
   viewKey: "v",
   editKey: "e"
 };
 
 export const generateKeys = async (): Promise<NoteAccessData> => {
-  const viewKey = await Crypto.createKey();
-  const editKey = await Crypto.createKey();
-
-  const { key: decryptionKey, iv: decryptionIv } = Crypto.createEncryptionKey();
+  const [viewKey, editKey, key] = await Promise.all([
+    Crypto.createKey(),
+    Crypto.createKey(),
+    Crypto.createKey()
+  ]);
 
   return {
-    decryptionKey,
-    decryptionIv,
+    encryptionKey: key,
     viewKey,
     editKey
   };

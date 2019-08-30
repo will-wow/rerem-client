@@ -1,24 +1,29 @@
-import App from "./App.svelte";
-// import NoteList from "./notes/NoteList.svelte";
-import EditNote from "./notes/EditNote.svelte";
-import NewNote from "./notes/NewNote.svelte";
 import page from "page";
+
+import App from "./App.svelte";
+import NoteList from "./pages/NoteList.svelte";
+import EditNote from "./pages/EditNote.svelte";
+import NewNote from "./pages/NewNote.svelte";
+import Login from "./pages/Login.svelte";
+import Signup from "./pages/Signup.svelte";
+import Credentials from "./pages/Credentials.svelte";
+import NotFound from "./pages/404.svelte";
 
 const app = new App({
   target: document.body
 });
 
-// page("/notes", ctx => {
-//   app.$set({ component: NoteList, ...ctx });
-// });
+const routeTo = component => ctx => {
+  app.$set({ component, ...ctx });
+};
 
-page("/note/:id", ctx => {
-  app.$set({ component: EditNote, ...ctx });
-});
-
-page("/", ctx => {
-  app.$set({ component: NewNote, ...ctx });
-});
+page("/", routeTo(NoteList));
+page("/notes/new", routeTo(NewNote));
+page("/notes/:id", routeTo(EditNote));
+page("/credentials", routeTo(Credentials));
+page("/login", routeTo(Login));
+page("/signup", routeTo(Signup));
+page("*", routeTo(NotFound));
 
 page.start();
 

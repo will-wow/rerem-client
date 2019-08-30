@@ -1,5 +1,4 @@
 type Encoded = string;
-type QueryEncoded = string;
 export type T = Encoded;
 
 export const encode = (bytes: string, query = false): Encoded => {

@@ -2,16 +2,18 @@
   import _ from "lodash";
   import { onMount } from "svelte";
 
-  import * as AccessData from "./access-data";
-  import { fetchAndDecryptNote, updateNote } from "./note.ts";
-  import Note from "./Note.svelte";
+  import { directory } from "user/directory";
+  import * as AccessData from "notes/access-data";
+  import { fetchAndDecryptNote, updateNote } from "../notes/note.ts";
+  import Note from "../notes/Note.svelte";
 
   export let query;
   export let id;
 
-  let accessParam = query.access;
-  let accessData = AccessData.decodeAccessParams(accessParam, id);
-  let notePromise = fetchAndDecryptNote(accessData)
+  let accessData = query.access
+    ? AccessData.decodeAccessParams(query.access, id)
+    : $directory[id];
+  let notePromise = fetchAndDecryptNote(accessData);
 </script>
 
 <style>

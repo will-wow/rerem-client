@@ -10,6 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
+    // Absolute imports
+    "baseUrl": "src",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,

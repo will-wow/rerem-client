@@ -2,33 +2,23 @@ import forge from "node-forge";
 import { ok, error, Result } from "result-async";
 
 import * as Encoded from "./encoded";
+import * as AccessKey from "./access-key";
 
 export type Encrypted = string;
 
 export interface EncryptedData {
   body: Encrypted;
-  key: Encoded.T;
   iv: Encoded.T;
 }
 
-export const createEncryptionKey = () => {
-  const keyBytes = forge.random.getBytesSync(16);
-  const ivBytes = forge.random.getBytesSync(16);
-
-  return {
-    key: Encoded.encode(keyBytes),
-    iv: Encoded.encode(ivBytes)
-  };
-};
-
-export const encrypt = (
+export const encrypt = async (
   text: string,
-  key: Encoded.T,
-  iv: Encoded.T
-): Encrypted => {
-  if (!text) return '';
+  key: Encoded.T
+): Promise<EncryptedData> => {
+  if (!text) return { body: "", iv: "" };
 
   const keyBytes = Encoded.decode(key);
+  const iv = await AccessKey.createKey();
   const ivBytes = Encoded.decode(iv);
 
   const cipher = forge.cipher.createCipher("AES-CBC", keyBytes);
@@ -38,13 +28,15 @@ export const encrypt = (
 
   const cipherText = cipher.output.getBytes();
 
-  return Encoded.encode(cipherText);
+  return {
+    body: Encoded.encode(cipherText),
+    iv: Encoded.encode(ivBytes)
+  };
 };
 
 export const decrypt = (
-  body: Encrypted,
-  key: Encoded.T,
-  iv: Encoded.T
+  { body, iv }: EncryptedData,
+  key: Encoded.T
 ): Result<string, string> => {
   if (!body) return ok("");
 

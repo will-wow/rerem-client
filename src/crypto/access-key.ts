@@ -5,13 +5,13 @@ import * as Encoded from "./encoded";
 
 export type Hash = string;
 
-export const createKey = (): Promise<Encoded.T> =>
+export const createKey = (count = 16): Promise<Encoded.T> =>
   new Promise(resolve => {
     const encodeBytes: any = (_error: any, bytes: string): void => {
       resolve(Encoded.encode(bytes));
     };
 
-    forge.random.getBytes(32, encodeBytes);
+    forge.random.getBytes(count, encodeBytes);
   });
 
 export const hashKey = (key: string): Promise<Hash> => bcrypt.hash(key, 10);

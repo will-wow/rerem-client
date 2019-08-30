@@ -1,9 +1,7 @@
 <script>
-  import _ from "lodash";
-  import * as Api from "../api.ts";
-  import * as AccessData from "./access-data.ts";
-  import { createNote } from "./note.ts";
-  import Note from "./Note.svelte";
+  import * as AccessData from "notes/access-data.ts";
+  import { createNote } from "notes/note.ts";
+  import Note from "notes/Note.svelte";
 
   let note = { body: "" };
   let accessData = AccessData.generateKeys();

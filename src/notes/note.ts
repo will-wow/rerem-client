@@ -6,7 +6,7 @@ import * as Crypto from "../crypto";
 import * as AccessData from "./access-data";
 
 interface Note {
-  id: string;
+  id?: string;
   body: string;
 }
 
@@ -14,6 +14,7 @@ export type T = Note;
 
 export interface NoteCreateRequest {
   body: Crypto.EncryptedString;
+  iv: Crypto.Encoded;
   viewKeyHash: Crypto.Hash;
   editKeyHash: Crypto.Hash;
 }
@@ -26,6 +27,7 @@ export interface NoteLookupRequest {
 export interface NoteResponse {
   id: string;
   body: Crypto.EncryptedString;
+  iv: Crypto.Encoded;
 }
 
 const accessDataToRequest = (accessData: AccessData.T): NoteLookupRequest =>
@@ -54,48 +56,44 @@ export const createNote = async (
   note: Note,
   accessData: AccessData.T
 ): ResultP<NoteResponse, string> => {
-  const encrypted = Crypto.encrypt(
+  const { body: encrypted, iv } = await Crypto.encrypt(
     note.body,
-    accessData.decryptionKey,
-    accessData.decryptionIv
+    accessData.encryptionKey
   );
 
-  const body = {
+  const postBody = {
     body: encrypted,
+    iv,
     viewKeyHash: await Crypto.hashKey(accessData.viewKey),
     editKeyHash: await Crypto.hashKey(accessData.editKey)
   };
 
-  return Api.post(`/notes`, body);
+  return Api.post(`/notes`, postBody);
 };
 
-export const updateNote = (
-  note: Note,
+export const updateNote = async (
+  body: Note,
   accessData: AccessData.T
 ): ResultP<NoteResponse, string> => {
-  const encrypted = Crypto.encrypt(
+  const { body: encrypted, iv } = await Crypto.encrypt(
     note.body,
-    accessData.decryptionKey,
-    accessData.decryptionIv
+    accessData.encryptionKey
   );
 
   return Api.put(`/notes/${accessData.id}`, {
     body: encrypted,
+    iv,
     ...accessDataToRequest(accessData)
   });
 };
 
 const decryptNote = (accessData: AccessData.T) => (
-  note: NoteResponse
+  noteResponse: NoteResponse
 ): Result<Note, string> => {
-  const result = Crypto.decrypt(
-    note.body,
-    accessData.decryptionKey,
-    accessData.decryptionIv
-  );
+  const result = Crypto.decrypt(noteResponse, accessData.encryptionKey);
 
   return result.map((body: string) => ({
-    id: note.id,
+    id: noteResponse.id,
     body
   }));
 };
