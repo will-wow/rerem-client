@@ -4,7 +4,7 @@
 
   import * as Directory from "user/directory.ts";
 
-  let note = { body: "{}" };
+  const note = { body: "{}" };
   let error;
 
   const handleSignUp = async () => {

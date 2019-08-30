@@ -5,7 +5,6 @@ describe("AccessData", () => {
   const accessData: AccessData.T = {
     id: "abc",
     encryptionKey: "key",
-    decryptionIv: "iv",
     viewKey: "view",
     editKey: "edit"
   };

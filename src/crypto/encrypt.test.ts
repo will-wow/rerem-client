@@ -1,16 +1,17 @@
 import { ok } from "result-async";
 import * as Encrypt from "./encrypt";
+import * as AccessKey from "./access-key";
 
 describe("encrypt", () => {
   describe("encryptNew", () => {
-    it("works both ways", () => {
+    it("works both ways", async () => {
       const data = "hi";
 
-      const { key, iv } = Encrypt.createEncryptionKey();
+      const key = await AccessKey.createKey();
 
-      const encrypted = Encrypt.encrypt(data, key, iv);
+      const encrypted = await Encrypt.encrypt(data, key);
 
-      expect(Encrypt.decrypt(encrypted, key, iv)).toEqual(ok(data));
+      expect(Encrypt.decrypt(encrypted, key)).toEqual(ok(data));
     });
   });
 });

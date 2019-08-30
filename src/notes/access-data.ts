@@ -42,13 +42,15 @@ export const toEditAccessParam = (accessData: NoteAccessData) => {
 
 export const decodeAccessParams = (
   accessParam: string,
-  id: string
-): NoteAccessData =>
-  fp.pipe(
+  id?: string
+): NoteAccessData => {
+  if (!id) throw new Error("can't decode without id");
+  return fp.pipe(
     x => Crypto.decodeObject(x, true),
     renameKeysCurried(SHORT_NAMES, { invert: true }),
     (data: any) => ({ ...data, id: id } as NoteAccessData)
   )(accessParam);
+};
 
 const toAccessParam = (
   accessData: NoteAccessData,

@@ -3,8 +3,8 @@
   import { createNote } from "notes/note.ts";
   import Note from "notes/Note.svelte";
 
-  let note = { body: "" };
-  let accessData = AccessData.generateKeys();
+  const note = { body: "" };
+  const accessData = AccessData.generateKeys();
 </script>
 
 <div class="new-note">

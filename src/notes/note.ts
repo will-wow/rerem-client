@@ -72,7 +72,7 @@ export const createNote = async (
 };
 
 export const updateNote = async (
-  body: Note,
+  note: Note,
   accessData: AccessData.T
 ): ResultP<NoteResponse, string> => {
   const { body: encrypted, iv } = await Crypto.encrypt(

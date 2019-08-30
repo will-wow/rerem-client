@@ -8,11 +8,11 @@
 
   $: query = queryString.parse(querystring);
 
-  let loginInPromie = Directory.logInFromStorage();
+  const loginInPromie = Directory.logInFromStorage();
 </script>
 
 <div>
-  {#if component }
+  {#if component}
     <Nav />
     <main>
       {#await loginInPromie then _}

@@ -1,6 +1,4 @@
 <script>
-  import { either } from "result-async";
-
   import * as Note from "notes/note.ts";
   import { accessList, loggedIn } from "user/directory.ts";
   import NoteSummary from "notes/NoteSummary.svelte";

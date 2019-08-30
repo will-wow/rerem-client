@@ -1,7 +1,7 @@
 <script>
   import { credentials } from "user/directory";
 
-  let { id, access } = $credentials;
+  const { id, access } = $credentials;
 
   $: route = `/login#?id=${id}&access=${access}`;
 </script>

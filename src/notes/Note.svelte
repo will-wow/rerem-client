@@ -1,15 +1,12 @@
 <script>
-  import _ from "lodash";
-  import { onMount } from "svelte";
-
   import * as Directory from "user/directory";
   import * as AccessData from "./access-data";
-  import * as Crypto from "../crypto";
-  import { fetchAndDecryptNote } from "./note.ts";
 
   export let note;
   export let accessData;
   export let onSubmit;
+
+  let isSaved = Boolean(accessData.id);
 
   $: viewAccessParam = AccessData.toViewAccessParam(accessData);
   $: editAccessParam = AccessData.toEditAccessParam(accessData);
@@ -21,9 +18,8 @@
     noteSavePromise = onSubmit(note, accessData);
 
     const response = await noteSavePromise;
-    note.id = response.ok.id;
-    accessData.id = response.ok.id;
-    Directory.addNote(accessData)
+    Directory.addNote({ ...accessData, id: response.ok.id });
+    isSaved = true;
   };
 </script>
 
@@ -52,12 +48,14 @@
     {/await}
   {/if}
 
-  {#if accessData.id}
+  {#if isSaved}
     <a href="/notes/{note.id}#?access={viewAccessParam}" target="_blank">
       View Link
     </a>
     {#if accessData.editKey}
-      <a href="/notes/{accessData.id}#?access={editAccessParam}" target="_blank">
+      <a
+        href="/notes/{accessData.id}#?access={editAccessParam}"
+        target="_blank">
         Edit Link
       </a>
     {/if}
