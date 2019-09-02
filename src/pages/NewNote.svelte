@@ -1,6 +1,6 @@
 <script>
-  import * as AccessData from "notes/access-data.ts";
-  import { createNote } from "notes/note.ts";
+  import * as AccessData from "notes/access-data";
+  import { createNote } from "notes/note";
   import Note from "notes/Note.svelte";
 
   const note = { body: "" };

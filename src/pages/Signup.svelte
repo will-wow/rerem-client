@@ -2,7 +2,7 @@
   import page from "page";
   import { either } from "result-async";
 
-  import * as Directory from "user/directory.ts";
+  import * as Directory from "user/directory";
 
   const note = { body: "{}" };
   let error;

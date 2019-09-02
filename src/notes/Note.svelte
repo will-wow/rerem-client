@@ -32,7 +32,7 @@
 
 <form class="note" on:submit={handleSubmit}>
   {#if accessData.editKey}
-    <textarea bind:value={note.body} />
+    <textarea placeholder="Add your note here" bind:value={note.body} />
     <button type="submit">{accessData.id ? 'Update' : 'Create'}</button>
   {:else}
     <div>{note.body}</div>

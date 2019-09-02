@@ -1,7 +1,7 @@
 <script>
   import { directory } from "user/directory";
   import * as AccessData from "notes/access-data";
-  import { fetchAndDecryptNote, updateNote } from "../notes/note.ts";
+  import { fetchAndDecryptNote, updateNote } from "../notes/note";
   import Note from "../notes/Note.svelte";
 
   export let query;

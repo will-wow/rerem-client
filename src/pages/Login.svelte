@@ -1,6 +1,6 @@
 <script>
   import page from "page";
-  import * as Directory from "./user/directory";
+  import * as Directory from "user/directory";
 
   export let query;
 
@@ -14,6 +14,10 @@
     page.show("/");
   };
 </script>
+
+<svelte:head>
+  <title>Rerem: Login</title>
+</svelte:head>
 
 <form class="login" on:submit={handleSubmit}>
   <h1>Log In</h1>

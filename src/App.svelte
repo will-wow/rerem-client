@@ -1,19 +1,25 @@
 <script>
-  import queryString from "query-string";
   import { onMount } from "svelte";
+  import { parse } from "query-string";
 
   import Nav from "user/Nav.svelte";
-  import * as Directory from "user/directory.ts";
+  import * as Directory from "user/directory";
 
-  export let component, querystring, pathname, params, title, state, hash, path;
+  export let component;
+  export let querystring = "";
+  export let params = {};
 
-  $: query = queryString.parse(querystring);
+  $: query = parse(querystring);
 
   let loginInPromie;
   onMount(() => {
     loginInPromie = Directory.logInFromStorage();
   });
 </script>
+
+<svelte:head>
+  <title>Rerem</title>
+</svelte:head>
 
 <div>
   {#if component}

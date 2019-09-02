@@ -1,0 +1,11 @@
+{
+  "*.svelte": {
+    "alternate": ["{}.test.js"]
+  },
+  "*.ts": {
+    "alternate": ["{}.test.ts"]
+  },
+  "*.js": {
+    "alternate": ["{}.test.js"]
+  }
+}
