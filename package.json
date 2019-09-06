@@ -54,7 +54,8 @@
     "query-string": "^6.8.2",
     "regenerator-runtime": "^0.13.3",
     "result-async": "^1.2.4",
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "svelte-ace-editor": "^0.0.2"
   },
   "scripts": {
     "build": "rollup -c",

@@ -1,6 +1,19 @@
 <script>
   import * as Directory from "user/directory";
   import * as AccessData from "./access-data";
+  import AceEditor from "svelte-ace-editor";
+  import "brace"
+
+  // if (process.browser) {
+  // require("brace");
+  // require('brace/ext/language_tools')
+  // require('brace/ext/language_tools')
+  // require('brace/mode/pgsql')
+  // require('brace/mode/mysql')
+  // require('brace/mode/sql')
+  // require('brace/mode/sqlserver')
+  // require("brace/theme/clouds_midnight");
+  // }
 
   export let note;
   export let accessData;
@@ -32,7 +45,7 @@
 
 <form class="note" on:submit={handleSubmit}>
   {#if accessData.editKey}
-    <textarea placeholder="Add your note here" bind:value={note.body} />
+    <AceEditor placeholder="Add your note here" bind:value={note.body} />
     <button type="submit">{accessData.id ? 'Update' : 'Create'}</button>
   {:else}
     <div>{note.body}</div>

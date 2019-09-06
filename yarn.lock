@@ -1407,6 +1407,11 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
+brace@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/brace/-/brace-0.11.1.tgz#4896fcc9d544eef45f4bb7660db320d3b379fe58"
+  integrity sha1-SJb8ydVE7vRfS7dmDbMg07N5/lg=
+
 braces@^2.3.1, braces@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/braces/-/braces-2.3.2.tgz#5979fd3f14cd531565e5fa2df1abfff1dfaee729"
@@ -5119,7 +5124,14 @@ surge@^0.21.3:
     tarr "1.1.0"
     url-parse-as-address "1.0.0"
 
-svelte@^3.9.1:
+svelte-ace-editor@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/svelte-ace-editor/-/svelte-ace-editor-0.0.2.tgz#88038d655a6d6f86a96f4b40009f06202a85685b"
+  integrity sha512-GutGo2bG6v0KqAMoNKhXyg6o9iutrEGAm2NQqfb+7lWzZLY54oN3Bs1yK+CN7kg4zMuZTIdDsdBKw4DqQkPHyw==
+  dependencies:
+    brace "^0.11.1"
+
+svelte@^3.1.0, svelte@^3.9.1:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.9.1.tgz#f0dc0993d80e69da46f7b21d858895c37c2fd419"
   integrity sha512-oy6FjffuCzPueBnzs8SxkV5VaOS+VX/eUywgE9LCA+skKdXt7wFlpKH3DNi1Uy+K23sb9bzlWxn0AaDQOnEUEw==
