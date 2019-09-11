@@ -28,7 +28,7 @@
 
 {#if isOpen}
   <div class="modal-background" on:click={onClose}>
-    <div class="modal">
+    <div class="modal" on:click|stopPropagation>
       <slot {onClose} />
     </div>
   </div>

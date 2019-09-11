@@ -1,5 +1,6 @@
 <script>
   import { loggedIn, accessList } from "./directory";
+  import { openNewNote } from "modal/active-note";
 </script>
 
 <style>
@@ -23,7 +24,7 @@
         <a href="/">My Notes</a>
       </li>
       <li>
-        <a href="/notes/new">New Note</a>
+        <a on:click={openNewNote}>New Note</a>
       </li>
       <li>
         <a href="/credentials">Creds</a>

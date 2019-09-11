@@ -3,9 +3,10 @@
   import { parse } from "query-string";
 
   import Nav from "user/Nav.svelte";
+  import NoteModal from "modal/NoteModal.svelte";
   import * as Directory from "user/directory";
 
-  export let component;
+  export let component = null;
   export let querystring = "";
   export let params = {};
 
@@ -31,6 +32,7 @@
           {...params}
           {query} />
       </main>
+      <NoteModal />
     {/await}
   {/if}
 </div>

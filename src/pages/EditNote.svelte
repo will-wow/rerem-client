@@ -1,8 +1,8 @@
 <script>
   import { directory } from "user/directory";
   import * as AccessData from "notes/access-data";
-  import { fetchAndDecryptNote, updateNote } from "../notes/note";
-  import Note from "../notes/Note.svelte";
+  import { fetchAndDecryptNote } from "notes/note";
+  import Note from "notes/Note.svelte";
 
   export let query;
   export let id;
@@ -24,7 +24,7 @@
   {#await notePromise}
     Loading Note...
   {:then note}
-    <Note note={note.ok} {accessData} onSubmit={updateNote} />
+    <Note note={note.ok} {accessData} />
   {:catch error}
     Note failed to fetch: {error}
   {/await}
