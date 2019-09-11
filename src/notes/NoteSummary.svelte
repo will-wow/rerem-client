@@ -1,7 +1,8 @@
 <script>
   export let note;
+  export let onClick;
 </script>
 
 <div class="note-summary">
-  <a href="/notes/{note.id}">{note.body || note.id}</a>
+  <button on:click={onClick}>{note.body || note.id}</button>
 </div>

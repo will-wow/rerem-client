@@ -1,24 +1,24 @@
 <script>
-  import * as Directory from "user/directory";
+  import { addNote, directory } from "user/directory";
   import * as AccessData from "./access-data";
 
   export let note;
-  export let accessData;
   export let onSubmit;
+  export let accessData = null;
 
-  let isSaved = Boolean(accessData.id);
-
-  $: viewAccessParam = AccessData.toViewAccessParam(accessData);
-  $: editAccessParam = AccessData.toEditAccessParam(accessData);
+  $: noteAccessData = accessData || $directory[note.id];
+  $: isSaved = Boolean(noteAccessData.id);
+  $: viewAccessParam = AccessData.toViewAccessParam(noteAccessData);
+  $: editAccessParam = AccessData.toEditAccessParam(noteAccessData);
 
   let noteSavePromise;
   const handleSubmit = async event => {
     event.preventDefault();
 
-    noteSavePromise = onSubmit(note, accessData);
+    noteSavePromise = onSubmit(note, noteAccessData);
 
     const response = await noteSavePromise;
-    Directory.addNote({ ...accessData, id: response.ok.id });
+    addNote({ ...noteAccessData, id: response.ok.id });
     isSaved = true;
   };
 </script>
@@ -31,9 +31,9 @@
 </style>
 
 <form class="note" on:submit={handleSubmit}>
-  {#if accessData.editKey}
+  {#if noteAccessData.editKey}
     <textarea placeholder="Add your note here" bind:value={note.body} />
-    <button type="submit">{accessData.id ? 'Update' : 'Create'}</button>
+    <button type="submit">{isSaved ? 'Update' : 'Create'}</button>
   {:else}
     <div>{note.body}</div>
   {/if}
@@ -52,9 +52,9 @@
     <a href="/notes/{note.id}#?access={viewAccessParam}" target="_blank">
       View Link
     </a>
-    {#if accessData.editKey}
+    {#if noteAccessData.editKey}
       <a
-        href="/notes/{accessData.id}#?access={editAccessParam}"
+        href="/notes/{noteAccessData.id}#?access={editAccessParam}"
         target="_blank">
         Edit Link
       </a>
