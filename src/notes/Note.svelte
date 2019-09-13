@@ -9,8 +9,7 @@
   export let accessData = null;
 
   const getAccessData = async (accessData, directory, noteId) => {
-    if (!noteId) return AccessData.generateKeys();
-    return accessData || directory[note.id];
+    return accessData || directory[note.id] || AccessData.generateKeys();
   };
 
   $: noteAccessData = getAccessData(accessData, $directory, note.id);
@@ -27,6 +26,7 @@
 {#await noteAccessData}
   Loading
 {:then noteAccessData}
+  {@debug noteAccessData}
   <NoteForm {note} {onSubmit} accessData={noteAccessData} />
 {:catch error}
   Faild to generate keys: {error}

@@ -6,7 +6,12 @@
   export let onSubmit;
   export let accessData;
 
-  $: isSaved = Boolean(accessData.id);
+  let isSaved;
+
+  $: {
+    isSaved = Boolean(accessData.id);
+  }
+
   $: viewAccessParam = AccessData.toViewAccessParam(accessData);
   $: editAccessParam = AccessData.toEditAccessParam(accessData);
 
