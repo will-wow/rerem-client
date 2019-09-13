@@ -18,6 +18,12 @@
   });
 </script>
 
+<style global>
+  :root {
+    --blue: blue;
+  }
+</style>
+
 <svelte:head>
   <title>Rerem</title>
 </svelte:head>

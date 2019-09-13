@@ -26,7 +26,6 @@
 {#await noteAccessData}
   Loading
 {:then noteAccessData}
-  {@debug noteAccessData}
   <NoteForm {note} {onSubmit} accessData={noteAccessData} />
 {:catch error}
   Faild to generate keys: {error}

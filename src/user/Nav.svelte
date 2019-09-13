@@ -14,6 +14,15 @@
   li {
     margin-left: 1rem;
   }
+
+  button, a {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: var(--blue);
+    cursor: pointer;
+  }
 </style>
 
 <nav>
@@ -24,7 +33,7 @@
         <a href="/">My Notes</a>
       </li>
       <li>
-        <a on:click={openNewNote}>New Note</a>
+        <button on:click={openNewNote} class="link">New Note</button>
       </li>
       <li>
         <a href="/credentials">Creds</a>
