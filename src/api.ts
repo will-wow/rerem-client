@@ -15,7 +15,6 @@ const transformResponse = [
 ];
 
 const api = axios.create({
-  baseURL: `${process.env.API || ""}/api`,
   transformResponse
 });
 
@@ -33,11 +32,12 @@ const wrapRequestInResult = async <Ok, Error>(
 };
 
 const request = (method: Method, type: "data" | "params") => async <Ok, Error>(
+  server: string,
   url: string,
   data?: any
 ): ResultP<Ok, Error> =>
   wrapRequestInResult<Ok, Error>({
-    url,
+    url: server + url,
     method,
     [type]: humps.decamelizeKeys(data)
   });

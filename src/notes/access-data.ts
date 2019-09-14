@@ -5,20 +5,21 @@ import { renameKeysCurried } from "../dictionary";
 export type T = NoteAccessData;
 
 export interface NoteAccessData {
-  // server: string;
   id?: string;
   encryptionKey: Crypto.Encoded;
   viewKey: Crypto.Encoded;
   editKey: Crypto.Encoded;
+  server: string;
 }
 
 const SHORT_NAMES = {
   encryptionKey: "k",
   viewKey: "v",
-  editKey: "e"
+  editKey: "e",
+  server: "s"
 };
 
-export const generateKeys = async (): Promise<NoteAccessData> => {
+export const generateKeys = async (server: string): Promise<NoteAccessData> => {
   const [viewKey, editKey, key] = await Promise.all([
     Crypto.createKey(),
     Crypto.createKey(),
@@ -28,7 +29,8 @@ export const generateKeys = async (): Promise<NoteAccessData> => {
   return {
     encryptionKey: key,
     viewKey,
-    editKey
+    editKey,
+    server
   };
 };
 
@@ -47,9 +49,17 @@ export const decodeAccessParams = (
   if (!id) throw new Error("can't decode without id");
   return fp.pipe(
     x => Crypto.decodeObject(x, true),
+    x => {
+      console.log("dec", x);
+      return x;
+    },
     renameKeysCurried(SHORT_NAMES, { invert: true }),
     (data: any) => ({ ...data, id: id } as NoteAccessData)
   )(accessParam);
+};
+
+export const isValid = (accessData: NoteAccessData): boolean => {
+  return Boolean(accessData.id && accessData.server);
 };
 
 const toAccessParam = (

@@ -1,5 +1,5 @@
 <script>
-  import { directory } from "user/directory";
+  import { directory, defaultServer } from "user/directory";
   import * as AccessData from "./access-data";
   import NoteForm from "./NoteForm.svelte";
   import { createNote, updateNote } from "notes/note";
@@ -9,7 +9,9 @@
   export let accessData = null;
 
   const getAccessData = async (accessData, directory, noteId) => {
-    return accessData || directory[noteId] || AccessData.generateKeys();
+    return (
+      accessData || directory[noteId] || AccessData.generateKeys($defaultServer)
+    );
   };
 
   $: noteAccessData = getAccessData(accessData, $directory, note.id);

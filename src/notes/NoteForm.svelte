@@ -15,6 +15,8 @@
   $: viewAccessParam = AccessData.toViewAccessParam(accessData);
   $: editAccessParam = AccessData.toEditAccessParam(accessData);
 
+  $: console.log({ editAccessParam });
+
   let noteSavePromise;
   const handleSubmit = async event => {
     event.preventDefault();

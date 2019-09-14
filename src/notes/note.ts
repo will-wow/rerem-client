@@ -64,6 +64,7 @@ export const fetchNote = (
   accessData: AccessData.T
 ): ResultP<NoteResponse, string> =>
   Api.get<NoteResponse, string>(
+    accessData.server,
     `/notes/${accessData.id}`,
     accessDataToRequest(accessData)
   );
@@ -84,7 +85,7 @@ export const createNote = async (
     editKeyHash: await Crypto.hashKey(accessData.editKey)
   };
 
-  return Api.post(`/notes`, postBody);
+  return Api.post(accessData.server, `/notes`, postBody);
 };
 
 export const updateNote = async (
@@ -96,7 +97,7 @@ export const updateNote = async (
     accessData.encryptionKey
   );
 
-  return Api.put(`/notes/${accessData.id}`, {
+  return Api.put(accessData.server, `/notes/${accessData.id}`, {
     body: encrypted,
     iv,
     ...accessDataToRequest(accessData)
@@ -108,8 +109,8 @@ export const deleteNote = async (
   accessData: AccessData.T
 ): ResultP<NoteResponse, string> => {
   return Api.remove(
+    accessData.server,
     `notes/${accessData.id}`,
-
     accessDataToRequest(accessData)
   );
 };

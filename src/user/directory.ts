@@ -43,6 +43,10 @@ export const directory = derived(store, data =>
   either(data, data => data.directory, () => ({}))
 );
 
+export const defaultServer = derived(store, data =>
+  either(data, data => data.accessData.server, () => null)
+);
+
 export const credentials = derived(store, data =>
   either(
     data,
@@ -55,8 +59,11 @@ export const credentials = derived(store, data =>
 );
 
 /** Create a new directory on the server */
-export const signUp = async (): ResultP<DirectoryData, string> => {
-  const accessData = await AccessData.generateKeys();
+export const signUp = async (
+  server: string
+): ResultP<DirectoryData, string> => {
+  console.log(server);
+  const accessData = await AccessData.generateKeys(server);
 
   return pipeAsync(
     Note.createNote({ body: "{}" }, accessData),
@@ -88,6 +95,7 @@ export const logInFromStorage = async (): ResultP<DirectoryData, string> => {
 
   if (isError(accessDataResult)) return accessDataResult;
   const accessData = accessDataResult.ok;
+  if (!AccessData.isValid(accessData)) return error("invalid");
 
   return pipeAsync(
     accessData,
