@@ -121,6 +121,31 @@ export const addNote = (accessData: AccessData.T): void => {
   );
 };
 
+/** Remove a note from the directory */
+export const removeNote = (accessData: AccessData.T): void => {
+  const { id } = accessData;
+  if (!id) return;
+
+  store.update(
+    okThen(data => {
+      if (!data.directory[id]) return data;
+      const directory = { ...data.directory };
+      delete directory[id];
+
+      const newData = {
+        ...data,
+        directory
+      };
+
+      // Save the new data, but don't wait for it
+      Note.updateNote({ body: JSON.stringify(directory) }, data.accessData);
+
+      // Update the store.
+      return newData;
+    })
+  );
+};
+
 const noteToDirectory = (note: Note.T): Result<Directory, string> => {
   return parseJson(note.body, "invalid directory");
 };

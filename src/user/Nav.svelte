@@ -15,7 +15,8 @@
     margin-left: 1rem;
   }
 
-  button, a {
+  button,
+  a {
     background: transparent;
     border: none;
     padding: 0;

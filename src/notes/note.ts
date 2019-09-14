@@ -1,6 +1,14 @@
 import _ from "lodash";
 import fp from "lodash/fp";
-import { ResultP, Result, allOkAsync, pipeAsync, okChain } from "result-async";
+import {
+  ResultP,
+  Result,
+  ok,
+  allOkAsync,
+  pipeAsync,
+  okChain,
+  errorRescue
+} from "result-async";
 import * as Api from "../api";
 import * as Crypto from "../crypto";
 import * as AccessData from "./access-data";
@@ -35,8 +43,16 @@ const accessDataToRequest = (accessData: AccessData.T): NoteLookupRequest =>
 
 export const fetchNotes = (
   accessData: AccessData.T[]
-): ResultP<Note[], string> =>
-  pipeAsync(accessData, fp.map(fetchAndDecryptNote), allOkAsync);
+): ResultP<Note[], unknown> =>
+  pipeAsync(
+    accessData,
+    fp.map(data =>
+      fetchAndDecryptNote(data).then(
+        errorRescue(() => ok({ id: data.id, body: "<DELETED>" }))
+      )
+    ),
+    allOkAsync
+  );
 
 export const fetchAndDecryptNote = (
   accessData: AccessData.T
@@ -85,6 +101,17 @@ export const updateNote = async (
     iv,
     ...accessDataToRequest(accessData)
   });
+};
+
+export const deleteNote = async (
+  note: Note,
+  accessData: AccessData.T
+): ResultP<NoteResponse, string> => {
+  return Api.remove(
+    `notes/${accessData.id}`,
+
+    accessDataToRequest(accessData)
+  );
 };
 
 const decryptNote = (accessData: AccessData.T) => (

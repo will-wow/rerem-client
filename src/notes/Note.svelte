@@ -9,7 +9,7 @@
   export let accessData = null;
 
   const getAccessData = async (accessData, directory, noteId) => {
-    return accessData || directory[note.id] || AccessData.generateKeys();
+    return accessData || directory[noteId] || AccessData.generateKeys();
   };
 
   $: noteAccessData = getAccessData(accessData, $directory, note.id);
