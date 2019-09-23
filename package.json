@@ -49,6 +49,7 @@
     "bcryptjs": "^2.4.3",
     "core-js": "^3.2.1",
     "humps": "^2.0.1",
+    "instascan": "^1.0.0",
     "node-forge": "^0.8.5",
     "page": "^1.11.4",
     "query-string": "^6.8.2",
