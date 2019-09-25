@@ -72,7 +72,7 @@ export const upgradeAccessData = (
     viewKey: data.viewKey,
     editKey: data.editKey,
 
-    server: data.server || process.env.API + "/api" || ""
+    server: data.server || process.env.API || ""
   };
 };
 

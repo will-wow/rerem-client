@@ -4,7 +4,7 @@
 
   import * as Directory from "user/directory";
 
-  let server = "http://localhost:4000";
+  let server = process.env.API;
   let error;
 
   const handleSignUp = async () => {
