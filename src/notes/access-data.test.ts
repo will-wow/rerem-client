@@ -6,7 +6,8 @@ describe("AccessData", () => {
     id: "abc",
     encryptionKey: "key",
     viewKey: "view",
-    editKey: "edit"
+    editKey: "edit",
+    server: "https://example.com"
   };
 
   describe("toEditAccessParam", () => {

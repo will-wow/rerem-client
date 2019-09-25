@@ -1,5 +1,4 @@
 <script>
-  import * as AccessData from "notes/access-data";
   import Note from "notes/Note.svelte";
 
   const note = { body: "" };

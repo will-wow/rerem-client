@@ -62,7 +62,6 @@ export const credentials = derived(store, data =>
 export const signUp = async (
   server: string
 ): ResultP<DirectoryData, string> => {
-  console.log(server);
   const accessData = await AccessData.generateKeys(server);
 
   return pipeAsync(

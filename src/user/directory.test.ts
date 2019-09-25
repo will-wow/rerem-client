@@ -11,7 +11,8 @@ describe("Directory", () => {
             id: "a",
             encryptionKey: "k",
             viewKey: "v",
-            editKey: "e"
+            editKey: "e",
+            server: "https://example.com"
           },
           directory: {}
         })

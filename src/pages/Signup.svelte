@@ -4,7 +4,6 @@
 
   import * as Directory from "user/directory";
 
-  const note = { body: "{}" };
   let server = "http://localhost:4000";
   let error;
 

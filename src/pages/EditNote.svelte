@@ -11,7 +11,6 @@
     ? AccessData.decodeAccessParams(query.access, id)
     : $directory[id];
 
-  console.log(accessData);
   const notePromise = fetchAndDecryptNote(accessData);
 </script>
 

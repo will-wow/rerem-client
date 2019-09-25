@@ -49,10 +49,6 @@ export const decodeAccessParams = (
   if (!id) throw new Error("can't decode without id");
   return fp.pipe(
     x => Crypto.decodeObject(x, true),
-    x => {
-      console.log("dec", x);
-      return x;
-    },
     renameKeysCurried(SHORT_NAMES, { invert: true }),
     (data: any) => ({ ...data, id: id } as NoteAccessData)
   )(accessParam);

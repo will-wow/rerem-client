@@ -12,7 +12,8 @@ function mockStore(value) {
 jest.mock("user/directory", () => {
   return {
     loggedIn: mockStore(true),
-    accessList: mockStore([])
+    accessList: mockStore([]),
+    directory: mockStore({})
   };
 });
 

@@ -9,7 +9,7 @@ describe("Api", () => {
 
   beforeEach(() => {
     mockApi = new MockAdapter(Api.axios);
-    mockApi.onGet("/api/notes").reply(() => [200, [note]]);
+    mockApi.onGet("https://example.com/api/notes").reply(() => [200, [note]]);
   });
 
   afterEach(() => {
@@ -18,7 +18,7 @@ describe("Api", () => {
 
   describe("get", () => {
     it("gets with query params", async () => {
-      const notes = await Api.get("/api/notes");
+      const notes = await Api.get("https://example.com", "/api/notes");
 
       expect(notes).toEqual(ok([note]));
     });
