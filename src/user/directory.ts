@@ -1,3 +1,4 @@
+import _ from "lodash";
 import {
   pipeAsync,
   okThen,
@@ -154,7 +155,11 @@ export const removeNote = (accessData: AccessData.T): void => {
 };
 
 const noteToDirectory = (note: Note.T): Result<Directory, string> => {
-  return parseJson(note.body, "invalid directory");
+  const result = parseJson<Directory>(note.body, "invalid directory");
+
+  return okThen((directory: Directory) =>
+    _.mapValues(directory, AccessData.upgradeAccessData)
+  )(result);
 };
 
 const storeDirectory = (
@@ -178,7 +183,12 @@ const persistAccessData = (accessData: AccessData.T): void => {
 const loadAccessData = (): Result<AccessData.T, string> => {
   const data = localStorage.getItem("rerem");
   if (!data) return error("no access data");
-  return parseJson(data, `invalid directory: ${data}`);
+
+  const accessData = parseJson<AccessData.T>(
+    data,
+    `invalid directory: ${data}`
+  );
+  return okThen(AccessData.upgradeAccessData)(accessData);
 };
 
 /**

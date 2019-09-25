@@ -8,7 +8,7 @@ export interface NoteAccessData {
   id?: string;
   encryptionKey: Crypto.Encoded;
   viewKey: Crypto.Encoded;
-  editKey: Crypto.Encoded;
+  editKey?: Crypto.Encoded;
   server: string;
 }
 
@@ -50,12 +50,30 @@ export const decodeAccessParams = (
   return fp.pipe(
     x => Crypto.decodeObject(x, true),
     renameKeysCurried(SHORT_NAMES, { invert: true }),
-    (data: any) => ({ ...data, id: id } as NoteAccessData)
+    (data: NoteAccessData) => ({ ...data, id: id } as NoteAccessData),
+    upgradeAccessData
   )(accessParam);
 };
 
 export const isValid = (accessData: NoteAccessData): boolean => {
   return Boolean(accessData.id && accessData.server);
+};
+
+export const upgradeAccessData = (
+  data: Partial<NoteAccessData>
+): NoteAccessData => {
+  if (!data.encryptionKey)
+    throw new Error("Invalid Access Data, missing EncryptionKey");
+  if (!data.viewKey) throw new Error("Invalid Access Data, missing ViewKey");
+
+  return {
+    id: data.id,
+    encryptionKey: data.encryptionKey,
+    viewKey: data.viewKey,
+    editKey: data.editKey,
+
+    server: data.server || process.env.API + "/api" || ""
+  };
 };
 
 const toAccessParam = (

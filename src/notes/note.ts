@@ -29,7 +29,7 @@ export interface NoteCreateRequest {
 
 export interface NoteLookupRequest {
   viewKey: Crypto.Encoded;
-  editKey: Crypto.Encoded;
+  editKey?: Crypto.Encoded;
 }
 
 export interface NoteResponse {
@@ -82,7 +82,9 @@ export const createNote = async (
     body: encrypted,
     iv,
     viewKeyHash: await Crypto.hashKey(accessData.viewKey),
-    editKeyHash: await Crypto.hashKey(accessData.editKey)
+    editKeyHash: accessData.editKey
+      ? await Crypto.hashKey(accessData.editKey)
+      : null
   };
 
   return Api.post(accessData.server, `/notes`, postBody);
