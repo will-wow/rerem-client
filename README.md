@@ -39,7 +39,7 @@ cd svelte-app
 yarn install
 ```
 
-...then start [Rollup](https://rollupjs.org):
+...then start the Webpack Dev Server
 
 ```bash
 yarn dev
