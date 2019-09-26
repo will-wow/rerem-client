@@ -1,6 +1,7 @@
 <script>
   import * as Directory from "user/directory";
   import * as AccessData from "./access-data";
+  import NotePreview from "./NotePreview.svelte";
 
   export let note;
   export let onSubmit;
@@ -56,7 +57,9 @@
       bind:value={note.body} />
     <button type="submit">{isSaved ? 'Update' : 'Create'}</button>
   {:else}
-    <div class="note-body">{note.body}</div>
+    <div class="note-body">
+      <NotePreview {note} />
+    </div>
   {/if}
 
   {#if noteSavePromise}

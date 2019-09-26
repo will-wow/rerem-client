@@ -999,10 +999,10 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.137.tgz#8a4804937dc6462274ffcc088df8f14fc1b368e2"
   integrity sha512-g4rNK5SRKloO+sUGbuO7aPtwbwzMgjK+bm9BBhLD7jGUiGR7zhwYEhSln/ihgYQBeIJ5j7xjyaYzrWTcu3UotQ==
 
-"@types/markdown-it@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@types/markdown-it/-/markdown-it-0.0.8.tgz#9af8704acde87fec70475369ba0413d50717bd8d"
-  integrity sha512-ouaTOi5kAdkTPl97u6uDkth9od4pQffPF9STcjYVZKFrEwLYf15s7Z772WxWE3IOcYBJglaT0XqdyNEiEfGgYg==
+"@types/markdown-it@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@types/markdown-it/-/markdown-it-0.0.9.tgz#a5d552f95216c478e0a27a5acc1b28dcffd989ce"
+  integrity sha512-IFSepyZXbF4dgSvsk8EsgaQ/8Msv1I5eTL0BZ0X3iGO9jw6tCVtPG8HchIPm3wrkmGdqZOD42kE0zplVi1gYDA==
   dependencies:
     "@types/linkify-it" "*"
 
@@ -7053,10 +7053,10 @@ svelte-dev-helper@^1.1.9:
   resolved "https://registry.yarnpkg.com/svelte-dev-helper/-/svelte-dev-helper-1.1.9.tgz#7d187db5c6cdbbd64d75a32f91b8998bde3273c3"
   integrity sha1-fRh9tcbNu9ZNdaMvkbiZi94yc8M=
 
-svelte-loader@2.13.3:
-  version "2.13.3"
-  resolved "https://registry.yarnpkg.com/svelte-loader/-/svelte-loader-2.13.3.tgz#866046f3ce85a2c4b884f14fb0ba0f205af8cc5c"
-  integrity sha512-ZvNWbR77lZ04nCHqnN0XFxKCQ+fynARCy+kxwogagW3k2NTJWg2QfJwN1J9d4ch+OZwcGPgGZITVr7FGB3hPmQ==
+svelte-loader@2.13.6:
+  version "2.13.6"
+  resolved "https://registry.yarnpkg.com/svelte-loader/-/svelte-loader-2.13.6.tgz#3d5efd5886c2bab034606d5af0cce659da3ee555"
+  integrity sha512-7uf7ZQdPAl+lwb1ldUYJFY/raZRUCuaNx7lMJ+F16jrVwN1+c35C2pBMGIY0mCqdKm5sm45jqELJJLGM3UG9Pw==
   dependencies:
     loader-utils "^1.1.0"
     svelte-dev-helper "^1.1.9"
