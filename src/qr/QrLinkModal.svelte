@@ -1,5 +1,5 @@
 <script>
-  import QrCodeDisplay from "modal/QrCodeDisplay.svelte";
+  import QrCodeDisplay from "qr/QrCodeDisplay.svelte";
   import Modal from "modal/Modal.svelte";
 
   export let link;

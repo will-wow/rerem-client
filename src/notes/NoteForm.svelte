@@ -1,7 +1,7 @@
 <script>
   import * as Directory from "user/directory";
   import * as AccessData from "./access-data";
-  import QrLinkModal from "modal/QrLinkModal.svelte";
+  import QrLinkModal from "qr/QrLinkModal.svelte";
 
   export let note;
   export let onSubmit;

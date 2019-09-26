@@ -1,6 +1,6 @@
 <script>
   import { credentials } from "user/directory";
-  import QrLinkModal from "modal/QrLinkModal.svelte";
+  import QrLinkModal from "qr/QrLinkModal.svelte";
 
   const { id, access } = $credentials;
 
