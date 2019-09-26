@@ -29,7 +29,7 @@ export default {
       "process.env.API": JSON.stringify(
         production
           ? "https://rerem.gigalixirapp.com/api"
-          : "http://localhost:4000"
+          : "http://localhost:4000/api"
       )
     }),
     svelte({
