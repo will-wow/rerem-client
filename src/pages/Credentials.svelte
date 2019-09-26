@@ -1,5 +1,6 @@
 <script>
   import { credentials } from "user/directory";
+  import QrLinkModal from "modal/QrLinkModal.svelte";
 
   const { id, access } = $credentials;
 
@@ -16,6 +17,13 @@
     these, we can't recover them.
   </p>
 
+  <p>
+    To save your credentials, or log in on another device, you have a few
+    options.
+  </p>
+
+  <h3>Password Manager</h3>
+
   <form on:submit={event => event.preventDefault()}>
     <label>
       Username
@@ -30,5 +38,14 @@
     <button type="submit">Save to Password Manager</button>
   </form>
 
-  <a target="_blank" href={route}>Or save this login link</a>
+  <h3>Link</h3>
+
+  <a target="_blank" href={route}>Save this login link</a>
+
+  <h3>QR Code</h3>
+
+  <p>
+    Login on your device with this QR code:
+    <QrLinkModal link={route} />
+  </p>
 {/if}
