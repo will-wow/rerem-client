@@ -2,6 +2,7 @@
   import * as Directory from "user/directory";
   import * as AccessData from "./access-data";
   import Markdown from "./Markdown.svelte";
+  import QrLinkModal from "qr/QrLinkModal.svelte";
 
   export let note;
   export let onSubmit;
@@ -15,6 +16,8 @@
 
   $: viewAccessParam = AccessData.toViewAccessParam(accessData);
   $: editAccessParam = AccessData.toEditAccessParam(accessData);
+  $: viewAccessLink = `/notes/${note.id}#?access=${viewAccessParam}`;
+  $: editAccessLink = `/notes/${note.id}#?access=${editAccessParam}`;
 
   let noteSavePromise;
   const handleSubmit = async event => {
@@ -74,15 +77,15 @@
 
   {#if isSaved}
     <div class="links">
-      <a href="/notes/{note.id}#?access={viewAccessParam}" target="_blank">
-        View Link
-      </a>
+      <div>
+        <a href={viewAccessLink} target="_blank">View Link</a>
+        <QrLinkModal link={viewAccessLink} />
+      </div>
       {#if accessData.editKey}
-        <a
-          href="/notes/{accessData.id}#?access={editAccessParam}"
-          target="_blank">
-          Edit Link
-        </a>
+        <div>
+          <a href={editAccessLink} target="_blank">Edit Link</a>
+          <QrLinkModal link={editAccessLink} />
+        </div>
       {/if}
     </div>
   {/if}
