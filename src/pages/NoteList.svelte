@@ -16,7 +16,7 @@
   };
 </script>
 
-<div class="note-list">
+<div class="note-list container">
   {#if $loggedIn}
     <h1>My Notes</h1>
 

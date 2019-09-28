@@ -14,7 +14,7 @@
     z-index: 1;
   }
 
-  .modal {
+  .modal-foreground {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -28,7 +28,7 @@
 
 {#if isOpen}
   <div class="modal-background" on:click={onClose}>
-    <div class="modal" on:click|stopPropagation>
+    <div class="modal-foreground" on:click|stopPropagation>
       <slot {onClose} />
     </div>
   </div>

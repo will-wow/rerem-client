@@ -2,9 +2,9 @@
   import MarkdownIt from "markdown-it";
   const md = new MarkdownIt();
 
-  export let note;
+  export let value;
 
-  $: html = md.render(note.body);
+  $: html = md.render(value);
 </script>
 
 <div>
