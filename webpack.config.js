@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
@@ -58,6 +59,12 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: "[name].css"
+    }),
+    new webpack.DefinePlugin({
+      "process.env.API":
+        process.env.NODE_ENV === "production"
+          ? "'https://rerem.gigalixirapp.com/api'"
+          : "'http://localhost:4000/api'"
     })
   ],
   devtool: prod ? false : "source-map",

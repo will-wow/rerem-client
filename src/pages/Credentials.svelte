@@ -23,15 +23,17 @@
     <form on:submit={event => event.preventDefault()}>
       <label>
         Username
-        <input type="text" value={id} />
+        <input type="text" value={id} class="form-control" />
       </label>
 
       <label>
         Password
-        <input type="password" value={access} />
+        <input type="password" value={access} class="form-control" />
       </label>
 
-      <button type="submit">Save to Password Manager</button>
+      <button type="submit" class="btn btn-dark">
+        Save to Password Manager
+      </button>
     </form>
 
     <h3>Link</h3>

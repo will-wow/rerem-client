@@ -27,12 +27,12 @@ export type Directory = {
   [id: string]: AccessData.T;
 };
 
+const DEFAULT_STATE = error("uninitialized");
+
 /**
  * Holds the users directory
  */
-export const store = writable<Result<DirectoryData, string>>(
-  error("uninitialized")
-);
+export const store = writable<Result<DirectoryData, string>>(DEFAULT_STATE);
 
 export const loggedIn = derived(store, resultToBoolean);
 
@@ -84,6 +84,11 @@ export const logIn = (
     okChain(noteToDirectory),
     okThen(x => storeDirectory(x, accessData))
   );
+};
+
+export const logOut = () => {
+  store.set(DEFAULT_STATE);
+  localStorage.removeItem("rerem");
 };
 
 /** Load a directory, given saved credentials */

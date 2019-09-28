@@ -17,3 +17,7 @@ button:active {
 button:focus {
   background-color: transparent;
 }
+
+label.form-group {
+  display: block;
+}

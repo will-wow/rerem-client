@@ -1,6 +1,6 @@
 <script>
   import * as Note from "notes/note";
-  import { accessList, loggedIn, directory, removeNote } from "user/directory";
+  import { accessList, loggedIn, logout, directory, removeNote } from "user/directory";
   import NoteSummary from "notes/NoteSummary.svelte";
   import { activeNote, openNewNote } from "modal/active-note";
 
@@ -29,8 +29,18 @@
         New Note
       </button>
 
-      <a class="btn btn-outline-dark flex-grow-0" href="/credentials">
+      <a
+        class="btn btn-outline-dark flex-grow-0"
+        href="/credentials"
+        title="User Profile">
         <ion-icon name="person" />
+      </a>
+
+      <a
+        class="btn btn-outline-dark flex-grow-0"
+        href="/login"
+        title="Log Out">
+        <ion-icon name="log-out" />
       </a>
     </div>
 

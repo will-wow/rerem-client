@@ -4,6 +4,8 @@
   const note = { body: "" };
 </script>
 
-<h1>Create Note</h1>
+<div class="container">
+  <h1>Create Anonymous Note</h1>
 
-<Note {note} />
+  <Note {note} />
+</div>

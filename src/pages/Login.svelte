@@ -13,25 +13,30 @@
     await Directory.logIn(id, accessParam);
     page.show("/");
   };
+
+  Directory.logOut();
 </script>
 
 <svelte:head>
   <title>Rerem: Login</title>
 </svelte:head>
 
-<form class="login" on:submit={handleSubmit}>
-  <h1>Log In</h1>
+<div class="login container">
+  <form on:submit={handleSubmit}>
+    <h1>Log In</h1>
 
-  <label>
-    Username
-    <input class="form-control" type="text" bind:value={id} />
-  </label>
+    <label class="form-group">
+      Username
+      <input class="form-control" type="text" bind:value={id} />
+    </label>
 
-  <label>
-    Password
-    <input class="form-control" type="password" bind:value={accessParam} />
-  </label>
+    <label class="form-group">
+      Password
+      <input class="form-control" type="password" bind:value={accessParam} />
+    </label>
 
-  <button type="submit" class="btn btn-dark">Log In</button>
-</form>
-<a href="/signup">Or create an account</a>
+    <button type="submit" class="btn btn-dark w-100">Log In</button>
+
+    <a href="/signup" class="mt-2">Or create a new account</a>
+  </form>
+</div>

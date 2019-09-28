@@ -55,10 +55,12 @@
   {/if}
   {#if accessData.editKey}
     <textarea
-      class="form-control note-body"
+      class="form-control note-body mb-3"
       placeholder="Add your note here"
       bind:value={note.body} />
-    <button type="submit">{isSaved ? 'Update' : 'Create'}</button>
+    <button type="submit" class="btn btn-dark w-100">
+      {isSaved ? 'Update' : 'Create'}
+    </button>
   {:else}
     <div class="note-body">
       <Markdown value={note.body} />
@@ -76,15 +78,29 @@
   {/if}
 
   {#if isSaved}
-    <div class="links">
-      <div>
-        <a href={viewAccessLink} target="_blank">View Link</a>
-        <QrLinkModal link={viewAccessLink} />
+    <div class="links row mt-3">
+      <div class="col-sm">
+        <div class="btn-group w-100">
+          <a href={viewAccessLink} target="_blank" class="btn btn-outline-dark">
+            View Link
+          </a>
+          <QrLinkModal
+            link={viewAccessLink}
+            title="View Link"
+            className="flex-grow-0" />
+        </div>
       </div>
       {#if accessData.editKey}
-        <div>
-          <a href={editAccessLink} target="_blank">Edit Link</a>
-          <QrLinkModal link={editAccessLink} />
+        <div class="col-sm">
+          <div class="btn-group w-100">
+            <a
+              href={editAccessLink}
+              target="_blank"
+              class="btn btn-outline-dark">
+              Edit Link
+            </a>
+            <QrLinkModal link={editAccessLink} className="flex-grow-0" />
+          </div>
         </div>
       {/if}
     </div>

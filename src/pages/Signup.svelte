@@ -16,17 +16,21 @@
   };
 </script>
 
-<form class="signup" on:submit|preventDefault={handleSignUp}>
-  <label>
-    Server
-    <input class="form-control" bind:value={server} />
-  </label>
+<div class="signup container">
+  <h1>New Account</h1>
 
-  <button class="btn btn-dark" type="submit" disabled={!server}>
-    Create Account
-  </button>
+  <form on:submit|preventDefault={handleSignUp}>
+    <label class="form-group">
+      Server
+      <input class="form-control" bind:value={server} />
+    </label>
 
-  {#if error}{error}{/if}
+    <button class="btn btn-dark w-100" type="submit" disabled={!server}>
+      Create Account
+    </button>
 
-  <a href="/login">Or Log In</a>
-</form>
+    {#if error}{error}{/if}
+
+    <a href="/login" class="mt-2">Or Log In</a>
+  </form>
+</div>
