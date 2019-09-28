@@ -54,7 +54,7 @@
     "page": "^1.11.4",
     "query-string": "^6.8.2",
     "regenerator-runtime": "^0.13.3",
-    "result-async": "^1.2.4",
+    "result-async": "^1.2.5",
     "sirv-cli": "^0.4.4"
   },
   "scripts": {
