@@ -24,14 +24,14 @@
 
   <label>
     Username
-    <input type="text" bind:value={id} />
+    <input class="form-control" type="text" bind:value={id} />
   </label>
 
   <label>
     Password
-    <input type="password" bind:value={accessParam} />
+    <input class="form-control" type="password" bind:value={accessParam} />
   </label>
 
-  <button type="submit">Log In</button>
+  <button type="submit" class="btn btn-dark">Log In</button>
 </form>
 <a href="/signup">Or create an account</a>

@@ -17,9 +17,14 @@
 </script>
 
 <form class="signup" on:submit|preventDefault={handleSignUp}>
-  <input bind:value={server} />
+  <label>
+    Server
+    <input class="form-control" bind:value={server} />
+  </label>
 
-  <button type="submit" disabled={!server}>Create Account</button>
+  <button class="btn btn-dark" type="submit" disabled={!server}>
+    Create Account
+  </button>
 
   {#if error}{error}{/if}
 

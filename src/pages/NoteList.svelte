@@ -2,9 +2,15 @@
   import * as Note from "notes/note";
   import { accessList, loggedIn, directory, removeNote } from "user/directory";
   import NoteSummary from "notes/NoteSummary.svelte";
-  import { activeNote } from "modal/active-note";
+  import { activeNote, openNewNote } from "modal/active-note";
 
-  $: notes = Note.fetchNotes($accessList);
+  let notes;
+
+  const fetchNotes = accessList => {
+    Note.fetchNotes(accessList).then(data => (notes = data));
+  };
+
+  $: fetchNotes($accessList);
 
   const handleDelete = async note => {
     const accessData = $directory[note.id];
@@ -18,18 +24,26 @@
 
 <div class="note-list container">
   {#if $loggedIn}
-    <h1>My Notes</h1>
+    <div class="btn-group mb-3 w-100">
+      <button class="btn btn-outline-dark" on:click={openNewNote}>
+        New Note
+      </button>
 
-    {#await notes}
+      <a class="btn btn-outline-dark flex-grow-0" href="/credentials">
+        <ion-icon name="person" />
+      </a>
+    </div>
+
+    {#if !notes}
       Loading
-    {:then notes}
+    {:else}
       {#each notes.ok as note}
         <NoteSummary
           {note}
           onClick={() => ($activeNote = note)}
           onDelete={() => handleDelete(note)} />
       {/each}
-    {/await}
+    {/if}
   {:else}
     <h1>Create an account to get started</h1>
     <h2>Create an anonymous note</h2>

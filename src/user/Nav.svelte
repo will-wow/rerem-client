@@ -15,7 +15,6 @@
     margin-left: 1rem;
   }
 
-  button,
   a {
     background: transparent;
     border: none;
@@ -28,18 +27,7 @@
 
 <nav>
   <ul class="items">
-    {#if $loggedIn}
-      <li>{$accessList.length} Notes</li>
-      <li>
-        <a href="/">My Notes</a>
-      </li>
-      <li>
-        <button on:click={openNewNote} class="link">New Note</button>
-      </li>
-      <li>
-        <a href="/credentials">Creds</a>
-      </li>
-    {:else}
+    {#if !$loggedIn}
       <li>
         <a href="/notes/new">Anonymous Note</a>
       </li>
