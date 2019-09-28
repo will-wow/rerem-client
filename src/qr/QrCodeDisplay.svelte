@@ -7,12 +7,17 @@
 
   let image;
   $: QRCode.toDataURL(fullLink).then(data => (image = data));
+  $: style = `background-image: url(${image})`;
 </script>
 
 <style>
-  img {
+  div {
     width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 </style>
 
-<img alt="QR Code" src={image} />
+<div {style} />
