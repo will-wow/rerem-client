@@ -1,14 +1,13 @@
 <script>
+  import * as Note from "./note";
   import Markdown from "./Markdown.svelte";
 
   export let note;
   export let onClick;
   export let onDelete;
 
-  $: text = note.body || note.id;
-
-  $: title = text.split(/\n+/)[0];
-  $: contents = text.replace(/.+\n+/, "");
+  $: title = Note.getTitle(note);
+  $: contents = Note.getContents(note);
 </script>
 
 <style>

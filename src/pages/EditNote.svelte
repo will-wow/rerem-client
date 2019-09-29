@@ -21,7 +21,7 @@
   }
 </style>
 
-<div class="edit-note">
+<div class="edit-note container">
   {#await notePromise}
     Loading Note...
   {:then note}

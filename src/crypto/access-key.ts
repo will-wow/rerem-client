@@ -12,4 +12,3 @@ export const createKey = (count = 16): Promise<Encoded.T> =>
 
     forge.random.getBytes(count, encodeBytes);
   });
-

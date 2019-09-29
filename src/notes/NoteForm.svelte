@@ -1,7 +1,8 @@
 <script>
   import * as Directory from "user/directory";
   import * as AccessData from "./access-data";
-  import Markdown from "./Markdown.svelte";
+  import NoteEditor from "./NoteEditor.svelte";
+  import NotePreview from "./NotePreview.svelte";
   import QrLinkModal from "qr/QrLinkModal.svelte";
 
   export let note;
@@ -9,7 +10,6 @@
   export let accessData;
 
   let isSaved;
-  let error;
 
   $: {
     isSaved = Boolean(accessData.id);
@@ -23,7 +23,6 @@
   let noteSavePromise;
   const handleSubmit = async () => {
     isSaved = false;
-    error = null;
 
     noteSavePromise = onSubmit(note, accessData);
 
@@ -55,16 +54,15 @@
 
 <form class="note" on:submit|preventDefault={handleSubmit}>
   {#if accessData.editKey}
-    <textarea
-      class="form-control note-body mb-3"
-      placeholder="Add your note here"
-      bind:value={note.body} />
-    <button type="submit" class="btn btn-dark w-100">
+    <div class="note-body">
+      <NoteEditor bind:note />
+    </div>
+    <button type="submit" class="btn btn-dark w-100 mt-3">
       {isSaved ? 'Update' : 'Create'}
     </button>
   {:else}
     <div class="note-body">
-      <Markdown value={note.body} />
+      <NotePreview {note} />
     </div>
   {/if}
 

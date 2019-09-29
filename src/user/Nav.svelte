@@ -1,6 +1,5 @@
 <script>
-  import { loggedIn, accessList } from "./directory";
-  import { openNewNote } from "modal/active-note";
+  import { loggedIn } from "./directory";
 </script>
 
 <style>
