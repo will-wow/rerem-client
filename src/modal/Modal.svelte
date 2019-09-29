@@ -1,6 +1,12 @@
 <script>
   export let isOpen;
   export let onClose;
+
+  const handleKeydown = event => {
+    if (event.key === "Escape") {
+      onClose();
+    }
+  };
 </script>
 
 <style>
@@ -25,6 +31,8 @@
     height: 75%;
   }
 </style>
+
+<svelte:window on:keydown={handleKeydown} />
 
 {#if isOpen}
   <div class="modal-background" on:click={onClose}>

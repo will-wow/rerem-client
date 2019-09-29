@@ -54,9 +54,6 @@
 </style>
 
 <form class="note" on:submit|preventDefault={handleSubmit}>
-  {#if note.id}
-    <div>{note.id}</div>
-  {/if}
   {#if accessData.editKey}
     <textarea
       class="form-control note-body mb-3"
