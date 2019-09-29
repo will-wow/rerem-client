@@ -3,9 +3,17 @@
 </script>
 
 <style>
+  nav {
+    background: #11002b;
+    color: #e5d5ff;
+  }
+
+  a {
+    color: #e5d5ff;
+  }
+
   .items {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
     list-style-type: none;
   }
@@ -14,19 +22,30 @@
     margin-left: 1rem;
   }
 
-  a {
-    background: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
-    color: var(--blue);
-    cursor: pointer;
+  li:first-child {
+    margin-left: 0;
   }
 </style>
 
 <nav>
-  <ul class="items">
-    {#if !$loggedIn}
+  <ul class="items container">
+    <li class="flex-grow-1">
+      <a href="/" title="Home">
+        <strong>Rerem</strong>
+      </a>
+    </li>
+    {#if $loggedIn}
+      <li>
+        <a href="/credentials" title="User Profile">
+          <ion-icon name="person" />
+        </a>
+      </li>
+      <li>
+        <a href="/login" title="Log Out">
+          <ion-icon name="log-out" />
+        </a>
+      </li>
+    {:else}
       <li>
         <a href="/notes/new">Anonymous Note</a>
       </li>
