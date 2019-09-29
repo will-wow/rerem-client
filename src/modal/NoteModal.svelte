@@ -4,8 +4,12 @@
   import Modal from "./Modal.svelte";
 
   $: isOpen = Boolean($activeNote);
+
+  const onCreate = (note, accessData) => {
+    $activeNote.id = accessData.id;
+  };
 </script>
 
 <Modal {isOpen} onClose={() => ($activeNote = null)}>
-  <Note note={$activeNote} />
+  <Note note={$activeNote} {onCreate} />
 </Modal>

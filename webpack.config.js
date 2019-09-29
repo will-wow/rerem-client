@@ -62,7 +62,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       "process.env.API":
-        process.env.NODE_ENV === "production"
+        mode === "production"
           ? "'https://rerem.gigalixirapp.com/api'"
           : "'http://localhost:4000/api'"
     })

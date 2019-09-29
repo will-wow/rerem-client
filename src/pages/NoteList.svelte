@@ -22,9 +22,24 @@
   };
 </script>
 
+<style>
+  .note-list {
+    position: relative;
+  }
+  .actions {
+    position: sticky;
+    background: white;
+    top: 1.5rem;
+    padding-top: 1rem;
+    margin-top: -1rem;
+    padding-bottom: 1rem;
+    z-index: 1;
+  }
+</style>
+
 <div class="note-list container">
   {#if $loggedIn}
-    <div class="btn-group mb-3 w-100">
+    <div class="btn-group w-100 actions">
       <button class="btn btn-outline-dark" on:click={openNewNote}>
         New Note
       </button>

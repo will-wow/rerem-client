@@ -45,7 +45,7 @@ export const directory = derived(store, data =>
 );
 
 export const defaultServer = derived(store, data =>
-  either(data, data => data.accessData.server, () => null)
+  either(data, data => data.accessData.server, () => process.env.API)
 );
 
 export const credentials = derived(store, data =>

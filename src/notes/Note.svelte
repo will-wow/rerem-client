@@ -4,36 +4,37 @@
   import * as AccessData from "./access-data";
   import NoteForm from "./NoteForm.svelte";
   import { createNote, updateNote } from "notes/note";
-  import { activeNote } from "modal/active-note";
 
   export let note;
   export let accessData = null;
+  export let onCreate = () => {};
 
-  const getAccessData = async (accessData, directory, noteId) => {
-    return (
-      accessData || directory[noteId] || AccessData.generateKeys($defaultServer)
-    );
+  let noteAccessData;
+
+  const getAccessData = async () => {
+    noteAccessData =
+      accessData ||
+      $directory[note.id] ||
+      (await AccessData.generateKeys($defaultServer));
   };
 
-  $: noteAccessData = getAccessData(accessData, $directory, note.id);
+  getAccessData();
 
   $: onSubmit = note.id
     ? updateNote
-    : async (...args) =>
+    : (...args) =>
         pipeAsync(
           createNote(...args),
           okThen(newNote => {
-            // Gram the ID from the new note. But leave the decrypted body as is.
-            $activeNote = { ...note, id: newNote.id };
+            noteAccessData = { ...noteAccessData, id: newNote.id };
+            onCreate(note, noteAccessData);
             return newNote;
           })
         );
 </script>
 
-{#await noteAccessData}
+{#if !noteAccessData}
   Loading
-{:then noteAccessData}
+{:else}
   <NoteForm {note} {onSubmit} accessData={noteAccessData} />
-{:catch error}
-  Faild to generate keys: {error}
-{/await}
+{/if}

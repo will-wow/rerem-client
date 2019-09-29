@@ -28,7 +28,7 @@
   <title>Rerem</title>
 </svelte:head>
 
-<div>
+<div class="app">
   {#if component}
     {#await loginInPromie then _}
       <Nav />

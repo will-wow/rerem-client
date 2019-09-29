@@ -17,8 +17,8 @@
 
   $: viewAccessParam = AccessData.toViewAccessParam(accessData);
   $: editAccessParam = AccessData.toEditAccessParam(accessData);
-  $: viewAccessLink = `/notes/${note.id}#?access=${viewAccessParam}`;
-  $: editAccessLink = `/notes/${note.id}#?access=${editAccessParam}`;
+  $: viewAccessLink = `/notes/${accessData.id}#?access=${viewAccessParam}`;
+  $: editAccessLink = `/notes/${accessData.id}#?access=${editAccessParam}`;
 
   let noteSavePromise;
   const handleSubmit = async () => {
