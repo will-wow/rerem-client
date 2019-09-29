@@ -20,6 +20,6 @@ describe("Nav", () => {
   it("should show the text", () => {
     component = render(Nav, {});
 
-    expect(component.container).toHaveTextContent("0 Notes");
+    expect(component.container).toHaveTextContent("Rerem");
   });
 });

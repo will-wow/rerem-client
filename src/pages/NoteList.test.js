@@ -24,7 +24,7 @@ describe("NoteList", () => {
     jest.spyOn(Note, "fetchNotes").mockResolvedValue({
       ok: [
         {
-          body: "hi"
+          body: "Title\nBody"
         }
       ]
     });
@@ -33,6 +33,6 @@ describe("NoteList", () => {
   it("should show the text", async () => {
     component = render(NoteList, {});
 
-    await waitForElement(() => component.getByText("hi"));
+    await waitForElement(() => component.getByText("Body"));
   });
 });
