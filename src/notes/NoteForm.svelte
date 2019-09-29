@@ -9,6 +9,7 @@
   export let accessData;
 
   let isSaved;
+  let error;
 
   $: {
     isSaved = Boolean(accessData.id);
@@ -20,15 +21,18 @@
   $: editAccessLink = `/notes/${note.id}#?access=${editAccessParam}`;
 
   let noteSavePromise;
-  const handleSubmit = async event => {
-    event.preventDefault();
+  const handleSubmit = async () => {
+    isSaved = false;
+    error = null;
 
     noteSavePromise = onSubmit(note, accessData);
 
     const response = await noteSavePromise;
-    const id = response.ok.id;
-    Directory.addNote({ ...accessData, id });
-    isSaved = true;
+
+    response.map(({ id }) => {
+      Directory.addNote({ ...accessData, id });
+      isSaved = true;
+    });
   };
 </script>
 
@@ -49,7 +53,7 @@
   }
 </style>
 
-<form class="note" on:submit={handleSubmit}>
+<form class="note" on:submit|preventDefault={handleSubmit}>
   {#if note.id}
     <div>{note.id}</div>
   {/if}
@@ -70,10 +74,16 @@
   {#if noteSavePromise}
     {#await noteSavePromise}
       Saving...
-    {:then _}
-      Saved!
-    {:catch error}
-      Error: {error}
+    {:then response}
+      <div class="mt-3">
+        {#if response.ok}
+          <div class="alert-success">Saved!</div>
+        {:else}
+          <div class="alert-danger">
+            Error: {JSON.stringify(response.error)}
+          </div>
+        {/if}
+      </div>
     {/await}
   {/if}
 

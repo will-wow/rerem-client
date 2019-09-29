@@ -81,10 +81,8 @@ export const createNote = async (
   const postBody = {
     body: encrypted,
     iv,
-    viewKeyHash: await Crypto.hashKey(accessData.viewKey),
-    editKeyHash: accessData.editKey
-      ? await Crypto.hashKey(accessData.editKey)
-      : null
+    viewKey: accessData.viewKey,
+    editKey: accessData.editKey
   };
 
   return Api.post(accessData.server, `/notes`, postBody);
@@ -112,7 +110,7 @@ export const deleteNote = async (
 ): ResultP<NoteResponse, string> => {
   return Api.remove(
     accessData.server,
-    `notes/${accessData.id}`,
+    `/notes/${accessData.id}`,
     accessDataToRequest(accessData)
   );
 };

@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import forge from "node-forge";
 
 import * as Encoded from "./encoded";
@@ -14,4 +13,3 @@ export const createKey = (count = 16): Promise<Encoded.T> =>
     forge.random.getBytes(count, encodeBytes);
   });
 
-export const hashKey = (key: string): Promise<Hash> => bcrypt.hash(key, 10);

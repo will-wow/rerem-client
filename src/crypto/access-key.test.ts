@@ -8,12 +8,4 @@ describe("AccessKey", () => {
       );
     });
   });
-
-  describe("hashKey", () => {
-    it("hashes with a new salt every time", async () => {
-      expect(await AccessKey.hashKey("key")).not.toEqual(
-        await AccessKey.hashKey("key")
-      );
-    });
-  });
 });

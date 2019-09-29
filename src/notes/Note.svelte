@@ -1,4 +1,5 @@
 <script>
+  import { pipeAsync, okThen } from "result-async";
   import { directory, defaultServer } from "user/directory";
   import * as AccessData from "./access-data";
   import NoteForm from "./NoteForm.svelte";
@@ -18,11 +19,15 @@
 
   $: onSubmit = note.id
     ? updateNote
-    : async (...args) => {
-        const response = await createNote(...args);
-        $activeNote = { ...note, id: response.ok.id };
-        return response;
-      };
+    : async (...args) =>
+        pipeAsync(
+          createNote(...args),
+          okThen(newNote => {
+            // Gram the ID from the new note. But leave the decrypted body as is.
+            $activeNote = { ...note, id: newNote.id };
+            return newNote;
+          })
+        );
 </script>
 
 {#await noteAccessData}

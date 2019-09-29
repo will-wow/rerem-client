@@ -17,8 +17,8 @@
   }
 </style>
 
-<div class="note-summary card mb-3" on:click={onClick} role="button">
-  <div class="card-body">
+<div class="note-summary card mb-3">
+  <div class="card-body" on:click={onClick} role="button">
     <h4 class="card-title">{title}</h4>
 
     <hr />
