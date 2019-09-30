@@ -1,2 +1,3 @@
 public/bundle.*
+public/service-worker.js
 webpack.config.js

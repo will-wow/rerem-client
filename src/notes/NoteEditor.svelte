@@ -9,8 +9,14 @@
   $: title = Note.getTitle(note);
   $: contents = Note.getContents(note);
 
-  const handleInput = () => {
-    note.body = `${title}\n${contents}`;
+  const handleInput = event => {
+    const {
+      target: { name, value }
+    } = event;
+
+    const newTitle = name === "title" ? value : title;
+    const newContents = name === "contents" ? value : contents;
+    note.body = `${newTitle}\n${newContents}`;
   };
 </script>
 
@@ -29,13 +35,15 @@
 <div class="wrapper">
   <input
     class="form-control"
-    bind:value={title}
-    on:input={handleInput}
-    placeholder="Title" />
+    placeholder="Title"
+    name="title"
+    value={title}
+    on:input={handleInput} />
 
   <textarea
     class="form-control mt-3"
     placeholder="Add your note here"
-    bind:value={contents}
+    name="contents"
+    value={contents}
     on:input={handleInput} />
 </div>
