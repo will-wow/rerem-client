@@ -1,9 +1,8 @@
 <script>
   import * as Directory from "user/directory";
-  import * as AccessData from "./access-data";
   import NoteEditor from "./NoteEditor.svelte";
   import NotePreview from "./NotePreview.svelte";
-  import QrLinkModal from "qr/QrLinkModal.svelte";
+  import { openShare } from "share/open-share";
 
   export let note;
   export let onSubmit;
@@ -14,11 +13,6 @@
   $: {
     isSaved = Boolean(accessData.id);
   }
-
-  $: viewAccessParam = AccessData.toViewAccessParam(accessData);
-  $: editAccessParam = AccessData.toEditAccessParam(accessData);
-  $: viewAccessLink = `/notes/${accessData.id}#?access=${viewAccessParam}`;
-  $: editAccessLink = `/notes/${accessData.id}#?access=${editAccessParam}`;
 
   let noteSavePromise;
   const handleSubmit = async () => {
@@ -84,30 +78,27 @@
 
   {#if isSaved}
     <div class="links row mt-3">
-      <div class="col-sm">
-        <div class="btn-group w-100">
-          <a href={viewAccessLink} target="_blank" class="btn btn-outline-dark">
-            View Link
-          </a>
-          <QrLinkModal
-            link={viewAccessLink}
-            title="View Link"
-            className="flex-grow-0" />
-        </div>
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-outline-dark w-100"
+          on:click={() => openShare(accessData)}>
+          Share
+          <ion-icon name="share" />
+        </button>
       </div>
-      {#if accessData.editKey}
-        <div class="col-sm">
-          <div class="btn-group w-100">
-            <a
-              href={editAccessLink}
-              target="_blank"
-              class="btn btn-outline-dark">
-              Edit Link
-            </a>
-            <QrLinkModal link={editAccessLink} className="flex-grow-0" />
-          </div>
+      <!-- TODO -->
+      <!-- {#if accessData.editKey}
+        <div class="col">
+          <button
+            type="button"
+            class="btn btn-outline-dark w-100"
+            on:click={() => openShare(accessData)}>
+            Delete
+            <ion-icon name="close" />
+          </button>
         </div>
-      {/if}
+      {/if} -->
     </div>
   {/if}
 </form>

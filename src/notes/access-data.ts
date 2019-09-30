@@ -85,3 +85,6 @@ const toAccessParam = (
     renameKeysCurried(SHORT_NAMES),
     x => Crypto.encodeObject(x, true)
   )(accessData);
+
+export const hasEditPermission = (accessData: NoteAccessData): boolean =>
+  Boolean(accessData.editKey);

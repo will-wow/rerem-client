@@ -11,6 +11,9 @@
 </script>
 
 <style>
+  .note-summary {
+    cursor: pointer;
+  }
   .icon {
     color: var(--secondary);
   }
