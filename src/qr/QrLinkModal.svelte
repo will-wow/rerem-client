@@ -1,15 +1,12 @@
 <script>
   import QrCodeDisplay from "qr/QrCodeDisplay.svelte";
-  import Modal from "modal/Modal.svelte";
+  import { openModal } from "modal/modal-store";
 
   export let link;
   export let title = "";
   export let className = "";
 
-  let isOpen = false;
-
-  const open = () => (isOpen = true);
-  const onClose = () => (isOpen = false);
+  const open = () => openModal(QrCodeDisplay, { link, title });
 </script>
 
 <button
@@ -19,7 +16,3 @@
   title="QR Code">
   <ion-icon name="qr-scanner" />
 </button>
-
-<Modal {isOpen} {onClose}>
-  <QrCodeDisplay {link} {title} />
-</Modal>

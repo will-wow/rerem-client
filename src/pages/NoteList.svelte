@@ -4,7 +4,7 @@
   import { accessList, loggedIn, directory, removeNote } from "user/directory";
   import NoteSummary from "notes/NoteSummary.svelte";
   import SearchInput from "form/SearchInput.svelte";
-  import { activeNote, openNewNote } from "modal/active-note";
+  import { openNote } from "modal/active-note";
 
   let notes;
   let search = "";
@@ -52,7 +52,7 @@
   {#if $loggedIn}
     <div class="row actions">
       <div class="col-8">
-        <button class="btn btn-outline-dark w-100" on:click={openNewNote}>
+        <button class="btn btn-outline-dark w-100" on:click={() => openNote()}>
           New Note
         </button>
       </div>
@@ -67,7 +67,7 @@
       {#each filteredNotes as note}
         <NoteSummary
           {note}
-          onClick={() => ($activeNote = note)}
+          onClick={() => openNote(note)}
           onDelete={() => handleDelete(note)} />
       {/each}
     {/if}

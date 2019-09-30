@@ -3,7 +3,7 @@
   import { parse } from "query-string";
 
   import Nav from "user/Nav.svelte";
-  import NoteModal from "modal/NoteModal.svelte";
+  import ModalStack from "modal/ModalStack.svelte";
   import * as Directory from "user/directory";
 
   export let component = null;
@@ -38,7 +38,7 @@
           {...params}
           {query} />
       </main>
-      <NoteModal />
+      <ModalStack />
     {/await}
   {/if}
 </div>

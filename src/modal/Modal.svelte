@@ -1,5 +1,4 @@
 <script>
-  export let isOpen;
   export let onClose;
 
   const handleKeydown = event => {
@@ -33,10 +32,8 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-{#if isOpen}
-  <div class="modal-background" on:click={onClose}>
-    <div class="modal-foreground" on:click|stopPropagation>
-      <slot {onClose} />
-    </div>
+<div class="modal-background" on:click={onClose}>
+  <div class="modal-foreground" on:click|stopPropagation>
+    <slot {onClose} />
   </div>
-{/if}
+</div>
