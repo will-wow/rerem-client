@@ -18,13 +18,12 @@
     right: 0;
     background: rgba(0, 0, 0, 0.25);
     z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .modal-foreground {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     padding: 1rem;
     background: white;
     width: 75%;
