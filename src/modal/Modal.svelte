@@ -1,11 +1,20 @@
 <script>
   export let onClose;
+  export let index;
 
   const handleKeydown = event => {
     if (event.key === "Escape") {
       onClose();
     }
   };
+
+  const sx = styles =>
+    Object.keys(styles)
+      .map(rule => `${rule}: ${styles[rule]}`)
+      .join("; ");
+
+  $: size = `${75 - index * 5}%`;
+  $: style = sx({ width: size, height: size });
 </script>
 
 <style>
@@ -25,15 +34,13 @@
   .modal-foreground {
     padding: 1rem;
     background: white;
-    width: 75%;
-    height: 75%;
   }
 </style>
 
 <svelte:window on:keydown={handleKeydown} />
 
 <div class="modal-background" on:click={onClose}>
-  <div class="modal-foreground" on:click|stopPropagation>
+  <div class="modal-foreground" on:click|stopPropagation {style}>
     <slot {onClose} />
   </div>
 </div>
