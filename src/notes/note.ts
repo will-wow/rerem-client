@@ -126,7 +126,7 @@ const decryptNote = (accessData: AccessData.T) => (
   }));
 };
 
-export const getTitle = (note: Note): string => note.body.split(/\n+/)[0];
+export const getTitle = (note: Note): string => note.body.split(/\n/)[0];
 
 export const getContents = (note: Note): string =>
-  note.body.replace(/.+\n+/, "");
+  note.body.replace(/.*\n/, "");

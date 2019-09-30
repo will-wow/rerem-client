@@ -16,28 +16,23 @@
   }
 </style>
 
-<div class="note-summary card mb-3">
-  <div class="card-body" on:click={onClick} role="button">
-    <h4 class="card-title">{title}</h4>
+<div class="note-summary card mb-3" on:click={onClick}>
+  <div class="card-body" role="button">
+    <div class="d-flex align-items-center">
+      <h4 class="card-title flex-grow-1">{title}</h4>
+
+      <button
+        class="icon icon-button"
+        on:click|stopPropagation={onDelete}
+        title="Delete">
+        <ion-icon name="close" />
+      </button>
+    </div>
 
     <hr />
 
     <p class="card-text">
       <Markdown value={contents} />
     </p>
-  </div>
-
-  <div class="card-body">
-    <div class="btn-group">
-      <button class="icon icon-button" on:click={onDelete}>
-        <ion-icon name="share-alt" />
-      </button>
-      <button class="icon icon-button" on:click={onDelete}>
-        <ion-icon name="share" />
-      </button>
-      <button class="icon icon-button" on:click={onDelete}>
-        <ion-icon name="close" />
-      </button>
-    </div>
   </div>
 </div>
