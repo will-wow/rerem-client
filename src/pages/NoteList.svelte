@@ -1,13 +1,24 @@
 <script>
+  import { pipeAsync, okThen } from "result-async";
   import * as Note from "notes/note";
   import { accessList, loggedIn, directory, removeNote } from "user/directory";
   import NoteSummary from "notes/NoteSummary.svelte";
+  import SearchInput from "form/SearchInput.svelte";
   import { activeNote, openNewNote } from "modal/active-note";
 
   let notes;
+  let search = "";
+
+  $: filteredNotes =
+    notes && search
+      ? notes.filter(note => note.body.toLowerCase().includes(search))
+      : notes;
 
   const fetchNotes = accessList => {
-    Note.fetchNotes(accessList).then(data => (notes = data));
+    pipeAsync(
+      Note.fetchNotes(accessList),
+      okThen(newNotes => (notes = newNotes))
+    );
   };
 
   $: fetchNotes($accessList);
@@ -39,16 +50,21 @@
 
 <div class="note-list container">
   {#if $loggedIn}
-    <div class="btn-group w-100 actions">
-      <button class="btn btn-outline-dark" on:click={openNewNote}>
-        New Note
-      </button>
+    <div class="row actions">
+      <div class="col-8">
+        <button class="btn btn-outline-dark w-100" on:click={openNewNote}>
+          New Note
+        </button>
+      </div>
+      <div class="col-4">
+        <SearchInput bind:value={search} />
+      </div>
     </div>
 
     {#if !notes}
       Loading
     {:else}
-      {#each notes.ok as note}
+      {#each filteredNotes as note}
         <NoteSummary
           {note}
           onClick={() => ($activeNote = note)}
