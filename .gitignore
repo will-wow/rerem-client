@@ -1,7 +1,10 @@
 .DS_Store
 node_modules
+
 public/bundle.*
-yarn-error.log
+public/service-worker.js
+public/precache-manifest.*.js
 
 .vscode
 coverage
+yarn-error.log

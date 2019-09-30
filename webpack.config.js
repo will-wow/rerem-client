@@ -1,6 +1,8 @@
+const path = require("path");
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const mode = process.env.NODE_ENV || "development";
 const prod = mode === "production";
@@ -20,7 +22,7 @@ module.exports = {
   },
   output: {
     path: __dirname + "/public",
-    filename: "[name].js",
+    filename: "[name].[contenthash].js",
     chunkFilename: "[name].[id].js"
   },
   module: {
@@ -58,13 +60,28 @@ module.exports = {
   mode,
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name].css"
+      filename: "[name].[contenthash].css"
     }),
     new webpack.DefinePlugin({
       "process.env.API":
         mode === "production"
           ? "'https://rerem.gigalixirapp.com/api'"
           : "'http://localhost:4000/api'"
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Rerem',
+      template: 'src/index.html'
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Rerem',
+      template: 'src/index.html',
+      filename: '200.html'
+    }),
+    new WorkboxPlugin.GenerateSW({
+      // these options encourage the ServiceWorkers to get in there fast
+      // and not allow any straggling "old" SWs to hang around
+      clientsClaim: true,
+      skipWaiting: true
     })
   ],
   devtool: prod ? false : "source-map",
