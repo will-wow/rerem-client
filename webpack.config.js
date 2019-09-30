@@ -1,11 +1,15 @@
 const path = require("path");
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const mode = process.env.NODE_ENV || "development";
 const prod = mode === "production";
+const api =
+  mode === "production"
+    ? "https://rerem.gigalixirapp.com/api"
+    : "http://localhost:4000/api";
 
 module.exports = {
   entry: {
@@ -63,25 +67,38 @@ module.exports = {
       filename: "[name].[contenthash].css"
     }),
     new webpack.DefinePlugin({
-      "process.env.API":
-        mode === "production"
-          ? "'https://rerem.gigalixirapp.com/api'"
-          : "'http://localhost:4000/api'"
+      "process.env.API": JSON.stringify(api)
     }),
     new HtmlWebpackPlugin({
-      title: 'Rerem',
-      template: 'src/index.html'
+      title: "Rerem",
+      template: "src/index.html"
     }),
     new HtmlWebpackPlugin({
-      title: 'Rerem',
-      template: 'src/index.html',
-      filename: '200.html'
+      title: "Rerem",
+      template: "src/index.html",
+      filename: "200.html"
     }),
     new WorkboxPlugin.GenerateSW({
       // these options encourage the ServiceWorkers to get in there fast
       // and not allow any straggling "old" SWs to hang around
       clientsClaim: true,
-      skipWaiting: true
+      skipWaiting: true,
+      runtimeCaching: [
+        // CDN Deps
+        {
+          urlPattern: new RegExp(
+            "https://unpkg.com/ionicons@4.5.10-0/dist/ionicons"
+          ),
+          handler: "CacheFirst"
+        },
+        {
+          urlPattern:
+            "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
+          handler: "CacheFirst"
+        },
+        // API GETs
+        { urlPattern: new RegExp(api), handler: "NetworkFirst" }
+      ]
     })
   ],
   devtool: prod ? false : "source-map",
