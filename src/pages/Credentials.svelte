@@ -1,10 +1,11 @@
 <script>
   import { credentials } from "user/directory";
-  import QrLinkModal from "qr/QrLinkModal.svelte";
+  import CopyableText from "share/CopyableText";
+  import { absoluteLink } from "share/absolute-link";
 
   const { id, access } = $credentials;
 
-  $: route = `/login#?id=${id}&access=${access}`;
+  $: route = absoluteLink(`/login#?id=${id}&access=${access}`);
 </script>
 
 <div class="container">
@@ -19,6 +20,11 @@
     </p>
 
     <h3>Password Manager</h3>
+
+    <p>
+      Use this form to tell your browser to save your anonymous Rerem username
+      and password.
+    </p>
 
     <form on:submit={event => event.preventDefault()}>
       <label>
@@ -38,13 +44,11 @@
 
     <h3>Link</h3>
 
-    <a target="_blank" href={route}>Save this login link</a>
-
-    <h3>QR Code</h3>
-
     <p>
-      Login on your device with this QR code:
-      <QrLinkModal link={route} />
+      Or use this link to log in on another device. Be careful, as anyone with
+      this link can access all your notes!
     </p>
+
+    <CopyableText value={route} />
   {/if}
 </div>

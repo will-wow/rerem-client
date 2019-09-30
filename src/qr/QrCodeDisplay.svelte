@@ -4,10 +4,8 @@
   export let link;
   export let title = "";
 
-  $: fullLink = `${window.location.protocol}//${window.location.host}${link}`;
-
   let image;
-  $: QRCode.toDataURL(fullLink).then(data => (image = data));
+  $: QRCode.toDataURL(link).then(data => (image = data));
   $: style = `background-image: url(${image})`;
 </script>
 

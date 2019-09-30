@@ -1,18 +1,16 @@
 <script>
   import * as AccessData from "notes/access-data";
   import CopyableText from "./CopyableText";
+  import { absoluteLink } from "./absolute-link";
 
   export let accessData;
 
-  const fullLink = link =>
-    `${window.location.protocol}//${window.location.host}${link}`;
-
   $: viewAccessParam = AccessData.toViewAccessParam(accessData);
   $: editAccessParam = AccessData.toEditAccessParam(accessData);
-  $: viewAccessLink = fullLink(
+  $: viewAccessLink = absoluteLink(
     `/notes/${accessData.id}#?access=${viewAccessParam}`
   );
-  $: editAccessLink = fullLink(
+  $: editAccessLink = absoluteLink(
     `/notes/${accessData.id}#?access=${editAccessParam}`
   );
   $: hasEditPermission = AccessData.hasEditPermission(accessData);
