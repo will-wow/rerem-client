@@ -1,17 +1,13 @@
 <script>
   export let onClose;
   export let index;
+  export let small = false;
 
   const handleKeydown = event => {
     if (event.key === "Escape") {
       onClose();
     }
   };
-
-  const sx = styles =>
-    Object.keys(styles)
-      .map(rule => `${rule}: ${styles[rule]}`)
-      .join("; ");
 </script>
 
 <style>
@@ -56,6 +52,11 @@
       width: 70%;
       height: 70%;
     }
+
+    .small {
+      width: auto;
+      height: auto;
+    }
   }
 
   .close-header {
@@ -80,7 +81,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div class="modal-background" on:click={onClose}>
-  <div class={`modal-foreground modal-${index}`}>
+  <div class={`modal-foreground modal-${index}`} class:small>
     <div class="close-header">
       <ion-icon name="close" />
     </div>

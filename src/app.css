@@ -5,16 +5,16 @@ body {
   height: 100%;
 }
 
-button {
-  background-color: transparent;
+.icon-button {
   border: none;
-}
-
-button:active {
   background-color: transparent;
 }
 
-button:focus {
+.icon-button:active {
+  background-color: transparent;
+}
+
+.icon-button:focus {
   background-color: transparent;
 }
 

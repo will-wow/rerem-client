@@ -3,8 +3,8 @@
   import Modal from "./Modal.svelte";
 </script>
 
-{#each $modalStore as { component, props }, index}
-  <Modal onClose={closeModal} {index}>
-    <svelte:component this={component} {...props} />
+{#each $modalStore as { component, small, props }, index}
+  <Modal onClose={closeModal} {index} {small}>
+    <svelte:component this={component} {...props} onClose={closeModal} />
   </Modal>
 {/each}

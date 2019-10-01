@@ -77,18 +77,18 @@
   {/if}
 
   {#if isSaved}
-      <div class="links d-flex mt-3">
-        <div class="flex-grow-1">
-          <button
-            type="button"
-            class="btn btn-outline-dark w-100"
-            on:click={() => openShare(accessData)}>
-            Share
-            <ion-icon name="share" />
-          </button>
-        </div>
-        <!-- TODO -->
-        <!-- {#if accessData.editKey}
+    <div class="links d-flex mt-3">
+      <div class="flex-grow-1">
+        <button
+          type="button"
+          class="btn btn-outline-dark w-100"
+          on:click={() => openShare(accessData)}>
+          Share
+          <ion-icon name="share" />
+        </button>
+      </div>
+      <!-- TODO -->
+      <!-- {#if accessData.editKey}
         <div class="col">
           <button
             type="button"
@@ -99,6 +99,6 @@
           </button>
         </div>
       {/if} -->
-      </div>
+    </div>
   {/if}
 </form>

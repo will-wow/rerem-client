@@ -5,6 +5,7 @@
   import NoteSummary from "notes/NoteSummary.svelte";
   import SearchInput from "form/SearchInput.svelte";
   import { openNote } from "modal/active-note";
+  import { areYouSure } from "modal/are-you-sure";
 
   let notes;
   let search = "";
@@ -68,7 +69,9 @@
         <NoteSummary
           {note}
           onClick={() => openNote(note)}
-          onDelete={() => handleDelete(note)} />
+          onDelete={() => {
+            areYouSure(() => handleDelete(note));
+          }} />
       {/each}
     {/if}
   {:else}
