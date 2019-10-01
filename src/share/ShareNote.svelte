@@ -18,6 +18,19 @@
 
 <div>
   <h2>Share this note!</h2>
+
+  <label class="form-group">
+    View Link
+    <CopyableText value={viewAccessLink} />
+  </label>
+
+  {#if hasEditPermission}
+    <label class="form-group">
+      Edit Link
+      <CopyableText value={editAccessLink} />
+    </label>
+  {/if}
+
   <p>
     {#if hasEditPermission}
       You can copy the view link to share a read-only copy, or copy the edit
@@ -32,15 +45,4 @@
     directly to another device.
   </p>
 
-  <label class="form-group">
-    View Link
-    <CopyableText value={viewAccessLink} />
-  </label>
-
-  {#if hasEditPermission}
-    <label class="form-group">
-      Edit Link
-      <CopyableText value={editAccessLink} />
-    </label>
-  {/if}
 </div>

@@ -51,12 +51,12 @@
 <div class="note-list container">
   {#if $loggedIn}
     <div class="row actions">
-      <div class="col-8">
+      <div class="col-md-8 mb-3 mb-md-0">
         <button class="btn btn-outline-dark w-100" on:click={() => openNote()}>
           New Note
         </button>
       </div>
-      <div class="col-4">
+      <div class="col-md-4">
         <SearchInput bind:value={search} />
       </div>
     </div>
