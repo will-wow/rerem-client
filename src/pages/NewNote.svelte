@@ -11,10 +11,12 @@
 
     page.show(editAccessLink);
   };
+
+  const onDelete = () => page.show("/");
 </script>
 
 <div class="container">
   <h1>Create Anonymous Note</h1>
 
-  <Note {note} {onCreate} />
+  <Note {note} {onCreate} {onDelete} />
 </div>

@@ -1,13 +1,14 @@
 <script>
   import { pipeAsync, okThen } from "result-async";
-  import { directory, defaultServer } from "user/directory";
+  import { directory, defaultServer, removeNote } from "user/directory";
   import * as AccessData from "./access-data";
   import NoteForm from "./NoteForm.svelte";
-  import { createNote, updateNote } from "notes/note";
+  import { createNote, updateNote, deleteNote } from "notes/note";
 
   export let note;
   export let accessData = null;
   export let onCreate = () => {};
+  export let onDelete = () => {};
 
   let noteAccessData;
 
@@ -31,10 +32,24 @@
             return newNote;
           })
         );
+
+  const handleDelete = (note, accessData) => {
+    pipeAsync(
+      deleteNote(note, accessData),
+      okThen(() => {
+        removeNote(accessData);
+        onDelete(note);
+      })
+    );
+  };
 </script>
 
 {#if !noteAccessData}
   Loading
 {:else}
-  <NoteForm {note} {onSubmit} accessData={noteAccessData} />
+  <NoteForm
+    {note}
+    {onSubmit}
+    accessData={noteAccessData}
+    onDelete={handleDelete} />
 {/if}

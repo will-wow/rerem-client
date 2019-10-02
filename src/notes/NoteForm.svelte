@@ -1,11 +1,13 @@
 <script>
   import * as Directory from "user/directory";
+  import { openShare } from "share/open-share";
+  import { areYouSure } from "modal/are-you-sure";
   import NoteEditor from "./NoteEditor.svelte";
   import NotePreview from "./NotePreview.svelte";
-  import { openShare } from "share/open-share";
 
   export let note;
   export let onSubmit;
+  export let onDelete;
   export let accessData;
 
   let isSaved;
@@ -99,6 +101,16 @@
           on:click={() => (preview = !preview)}>
           {editing ? 'Preview' : 'Edit'}
           <ion-icon name={editing ? 'eye' : 'code'} />
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-dark w-100 ml-3"
+          on:click={() => {
+            areYouSure(() => onDelete(note, accessData));
+          }}>
+          Delete
+          <ion-icon name="close" />
         </button>
       {/if}
       <!-- TODO -->
