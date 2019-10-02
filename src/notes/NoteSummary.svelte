@@ -21,8 +21,8 @@
 
 <div class="note-summary card mb-3" on:click={onClick}>
   <div class="card-body" role="button">
-    <div class="d-flex align-items-center">
-      <h4 class="card-title flex-grow-1">{title}</h4>
+    <div class="d-flex align-items-center mb-2">
+      <h5 class="card-title flex-grow-1">{title}</h5>
 
       <button
         class="icon icon-button"
@@ -31,8 +31,6 @@
         <ion-icon name="close" />
       </button>
     </div>
-
-    <hr />
 
     <p class="card-text">
       <Markdown value={contents} />
