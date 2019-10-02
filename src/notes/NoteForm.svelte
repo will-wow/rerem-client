@@ -9,6 +9,10 @@
   export let accessData;
 
   let isSaved;
+  let preview = false;
+
+  $: canEdit = Boolean(accessData.editKey);
+  $: editing = !preview && canEdit;
 
   $: {
     isSaved = Boolean(accessData.id);
@@ -47,17 +51,19 @@
 </style>
 
 <form class="note" on:submit|preventDefault={handleSubmit}>
-  {#if accessData.editKey}
+  {#if editing}
     <div class="note-body">
       <NoteEditor bind:note />
     </div>
-    <button type="submit" class="btn btn-dark w-100 mt-3">
-      {isSaved ? 'Update' : 'Create'}
-    </button>
   {:else}
     <div class="note-body">
       <NotePreview {note} />
     </div>
+  {/if}
+  {#if canEdit}
+    <button type="submit" class="btn btn-dark w-100 mt-3">
+      {isSaved ? 'Update' : 'Create'}
+    </button>
   {/if}
 
   {#if noteSavePromise}
@@ -78,25 +84,26 @@
 
   {#if isSaved}
     <div class="links d-flex mt-3">
-      <div class="flex-grow-1">
+      <button
+        type="button"
+        class="btn btn-outline-dark w-100"
+        on:click={() => openShare(accessData)}>
+        Share
+        <ion-icon name="share" />
+      </button>
+
+      {#if canEdit}
         <button
           type="button"
-          class="btn btn-outline-dark w-100"
-          on:click={() => openShare(accessData)}>
-          Share
-          <ion-icon name="share" />
+          class="btn btn-outline-dark w-100 ml-3"
+          on:click={() => (preview = !preview)}>
+          {editing ? 'Preview' : 'Edit'}
+          <ion-icon name={editing ? 'eye' : 'code'} />
         </button>
-      </div>
+      {/if}
       <!-- TODO -->
       <!-- {#if accessData.editKey}
         <div class="col">
-          <button
-            type="button"
-            class="btn btn-outline-dark w-100"
-            on:click={() => openShare(accessData)}>
-            Delete
-            <ion-icon name="close" />
-          </button>
         </div>
       {/if} -->
     </div>
