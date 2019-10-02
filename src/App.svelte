@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import { parse } from "query-string";
-  import "./app.css";
 
   import Nav from "user/Nav.svelte";
   import ModalStack from "modal/ModalStack.svelte";

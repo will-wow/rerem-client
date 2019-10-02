@@ -9,6 +9,8 @@ import Signup from "./pages/Signup.svelte";
 import Credentials from "./pages/Credentials.svelte";
 import NotFound from "./pages/404.svelte";
 
+import "./app.css";
+
 const app = new App({
   target: document.body
 });
