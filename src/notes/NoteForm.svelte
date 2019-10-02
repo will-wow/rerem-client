@@ -2,6 +2,7 @@
   import * as Directory from "user/directory";
   import { openShare } from "share/open-share";
   import { areYouSure } from "modal/are-you-sure";
+  import IconButton from "form/IconButton.svelte";
   import NoteEditor from "./NoteEditor.svelte";
   import NotePreview from "./NotePreview.svelte";
 
@@ -86,32 +87,29 @@
 
   {#if isSaved}
     <div class="links d-flex mt-3">
-      <button
+      <IconButton
         type="button"
         class="btn btn-outline-dark w-100"
-        on:click={() => openShare(accessData)}>
-        Share
-        <ion-icon name="share" />
-      </button>
+        on:click={() => openShare(accessData)}
+        description="Share"
+        icon="share" />
 
       {#if canEdit}
-        <button
+        <IconButton
           type="button"
           class="btn btn-outline-dark w-100 ml-3"
-          on:click={() => (preview = !preview)}>
-          {editing ? 'Preview' : 'Edit'}
-          <ion-icon name={editing ? 'eye' : 'code'} />
-        </button>
+          on:click={() => (preview = !preview)}
+          description={editing ? 'Preview' : 'Edit'}
+          icon={editing ? 'eye' : 'code'} />
 
-        <button
+        <IconButton
           type="button"
           class="btn btn-outline-dark w-100 ml-3"
           on:click={() => {
             areYouSure(() => onDelete(note, accessData));
-          }}>
-          Delete
-          <ion-icon name="close" />
-        </button>
+          }}
+          description="Delete"
+          icon="close" />
       {/if}
       <!-- TODO -->
       <!-- {#if accessData.editKey}
