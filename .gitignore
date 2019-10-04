@@ -1,13 +1,15 @@
-.DS_Store
+# Dependencies
 node_modules
 
+# Generated
 public/index.html
 public/200.html
 public/bundle.*
-public/bundle.*
 public/service-worker.js
 public/precache-manifest.*.js
-
-.vscode
 coverage
+
+# Editor
+.vscode
 yarn-error.log
+.DS_Store
