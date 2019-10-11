@@ -7,28 +7,24 @@ export type T = NoteAccessData;
 export interface NoteAccessData {
   id?: string;
   encryptionKey: Crypto.Encoded;
-  viewKey: Crypto.Encoded;
   editKey?: Crypto.Encoded;
   server: string;
 }
 
 const SHORT_NAMES = {
   encryptionKey: "k",
-  viewKey: "v",
   editKey: "e",
   server: "s"
 };
 
 export const generateKeys = async (server: string): Promise<NoteAccessData> => {
-  const [viewKey, editKey, key] = await Promise.all([
-    Crypto.createKey(),
+  const [editKey, key] = await Promise.all([
     Crypto.createKey(),
     Crypto.createKey()
   ]);
 
   return {
     encryptionKey: key,
-    viewKey,
     editKey,
     server
   };
@@ -64,12 +60,10 @@ export const upgradeAccessData = (
 ): NoteAccessData => {
   if (!data.encryptionKey)
     throw new Error("Invalid Access Data, missing EncryptionKey");
-  if (!data.viewKey) throw new Error("Invalid Access Data, missing ViewKey");
 
   return {
     id: data.id,
     encryptionKey: data.encryptionKey,
-    viewKey: data.viewKey,
     editKey: data.editKey,
 
     server: data.server || process.env.API || ""

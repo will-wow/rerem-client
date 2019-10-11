@@ -10,7 +10,6 @@ describe("Directory", () => {
           accessData: {
             id: "a",
             encryptionKey: "k",
-            viewKey: "v",
             editKey: "e",
             server: "https://example.com"
           },

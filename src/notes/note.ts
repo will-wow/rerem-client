@@ -23,12 +23,10 @@ export type T = Note;
 export interface NoteCreateRequest {
   body: Crypto.EncryptedString;
   iv: Crypto.Encoded;
-  viewKeyHash: Crypto.Hash;
   editKeyHash: Crypto.Hash;
 }
 
 export interface NoteLookupRequest {
-  viewKey: Crypto.Encoded;
   editKey?: Crypto.Encoded;
 }
 
@@ -39,7 +37,7 @@ export interface NoteResponse {
 }
 
 const accessDataToRequest = (accessData: AccessData.T): NoteLookupRequest =>
-  _.pick(accessData, ["viewKey", "editKey"]);
+  _.pick(accessData, ["editKey"]);
 
 export const fetchNotes = (
   accessData: AccessData.T[]
@@ -63,11 +61,7 @@ export const fetchAndDecryptNote = (
 export const fetchNote = (
   accessData: AccessData.T
 ): ResultP<NoteResponse, string> =>
-  Api.get<NoteResponse, string>(
-    accessData.server,
-    `/notes/${accessData.id}`,
-    accessDataToRequest(accessData)
-  );
+  Api.get<NoteResponse, string>(accessData.server, `/notes/${accessData.id}`);
 
 export const createNote = async (
   note: Note,
@@ -81,7 +75,6 @@ export const createNote = async (
   const postBody = {
     body: encrypted,
     iv,
-    viewKey: accessData.viewKey,
     editKey: accessData.editKey
   };
 
