@@ -1,4 +1,5 @@
 <script>
+  import { either } from "result-async";
   import * as Directory from "user/directory";
   import { openShare } from "share/open-share";
   import { areYouSure } from "modal/are-you-sure";
@@ -11,7 +12,9 @@
   export let onDelete;
   export let accessData;
 
-  let isSaved;
+  let isSaved = false;
+  let isSaving = false;
+  let lastResponse = null;
   let preview = false;
 
   $: canEdit = Boolean(accessData.editKey);
@@ -21,13 +24,15 @@
     isSaved = Boolean(accessData.id);
   }
 
-  let noteSavePromise;
   const handleSubmit = async () => {
-    noteSavePromise = onSubmit(note, accessData);
+    isSaving = true;
+    lastResponse = null;
 
-    const response = await noteSavePromise;
+    lastResponse = await onSubmit(note, accessData);
 
-    response.map(({ id }) => {
+    isSaving = false;
+
+    lastResponse.map(({ id }) => {
       Directory.addNote({ ...accessData, id });
       isSaved = true;
     });
@@ -64,23 +69,22 @@
   {#if canEdit}
     <button type="submit" class="btn btn-dark w-100 mt-3">
       {isSaved ? 'Update' : 'Create'}
+      {#if isSaving}
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true" />
+        <span class="sr-only">Loading...</span>
+      {/if}
     </button>
   {/if}
 
-  {#if noteSavePromise}
-    {#await noteSavePromise}
-      Saving...
-    {:then response}
-      <div class="mt-3">
-        {#if response.ok}
-          <div class="alert-success">Saved!</div>
-        {:else}
-          <div class="alert-danger">
-            Error: {JSON.stringify(response.error)}
-          </div>
-        {/if}
+  {#if lastResponse && lastResponse.error}
+    <div class="mt-3">
+      <div class="alert-danger">
+        Error: {JSON.stringify(lastResponse.error)}
       </div>
-    {/await}
+    </div>
   {/if}
 
   {#if isSaved}
