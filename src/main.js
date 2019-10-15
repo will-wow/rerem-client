@@ -9,7 +9,16 @@ import Signup from "./pages/Signup.svelte";
 import Credentials from "./pages/Credentials.svelte";
 import NotFound from "./pages/404.svelte";
 
+import * as serviceWorker from "./serviceWorker";
+
 import "./app.css";
+
+// Remove service worker when not in prod.
+if (process.env.NODE_ENV === "production") {
+  serviceWorker.register();
+} else {
+  serviceWorker.unregister();
+}
 
 const app = new App({
   target: document.body

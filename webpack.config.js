@@ -12,6 +12,8 @@ const api =
   mode === "production"
     ? "https://rerem.gigalixirapp.com/api"
     : "http://localhost:4000/api";
+const publicUrl =
+  mode === "production" ? "https://rerem.surge.sh" : "http://localhost:5000";
 
 module.exports = {
   entry: {
@@ -72,7 +74,8 @@ module.exports = {
       filename: "[name].[contenthash].css"
     }),
     new webpack.DefinePlugin({
-      "process.env.API": JSON.stringify(api)
+      "process.env.API": JSON.stringify(api),
+      "process.env.PUBLIC_URL": JSON.stringify(publicUrl)
     }),
     new HtmlWebpackPlugin({
       title: "Rerem",
