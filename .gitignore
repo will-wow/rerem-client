@@ -2,11 +2,7 @@
 node_modules
 
 # Generated
-public/index.html
-public/200.html
-public/bundle.*
-public/service-worker.js
-public/precache-manifest.*.js
+public
 coverage
 
 # Editor
