@@ -1,11 +1,11 @@
 <script>
   import * as Directory from "user/directory";
-  import { directory } from "user/directory";
   import { openShare } from "share/open-share";
   import { areYouSure } from "modal/are-you-sure";
   import IconButton from "form/IconButton.svelte";
   import NoteEditor from "./NoteEditor.svelte";
   import NotePreview from "./NotePreview.svelte";
+  import DirectoryToggle from "./DirectoryToggle.svelte";
 
   export let note;
   export let onSubmit;
@@ -43,11 +43,14 @@
   .note {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     height: 100%;
   }
 
   .note-body {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .links {
@@ -103,23 +106,7 @@
           description={editing ? 'Preview' : 'Edit'}
           icon={editing ? 'eye' : 'code'} />
 
-        {#if Directory.inDirectory(accessData.id, $directory)}
-          <IconButton
-            class="btn btn-outline-dark w-100 ml-3"
-            on:click={() => {
-              areYouSure(() => Directory.removeNote(accessData), 'This will remove the note from your directory, but will NOT delete it. Anyone will access will continue to be able to see the note.');
-            }}
-            description="Remove"
-            title="Remove note from my directory"
-            icon="remove-circle" />
-        {:else}
-          <IconButton
-            class="btn btn-outline-dark w-100 ml-3"
-            on:click={() => Directory.addNote(accessData)}
-            description="Add"
-            title="Add note to my directory"
-            icon="add-circle" />
-        {/if}
+        <DirectoryToggle {accessData} />
 
         <IconButton
           class="btn btn-outline-dark w-100 ml-3"
@@ -129,11 +116,6 @@
           description="Delete"
           icon="close" />
       {/if}
-      <!-- TODO -->
-      <!-- {#if accessData.editKey}
-        <div class="col">
-        </div>
-      {/if} -->
     </div>
   {/if}
 </form>

@@ -9,6 +9,7 @@
     position: sticky;
     top: 0;
     z-index: 1;
+    height: 1.5rem;
   }
 
   a {

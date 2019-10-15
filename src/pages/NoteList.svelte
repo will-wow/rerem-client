@@ -45,7 +45,6 @@
     background: white;
     top: 1.5rem;
     padding-top: 1rem;
-    margin-top: -1rem;
     padding-bottom: 1rem;
     z-index: 1;
   }

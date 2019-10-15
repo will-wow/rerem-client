@@ -22,9 +22,9 @@
 
 <style>
   .wrapper {
-    height: 100%;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
   }
 
   textarea {

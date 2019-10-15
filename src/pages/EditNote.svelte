@@ -18,13 +18,16 @@
 </script>
 
 <style>
-  .note {
+  .edit-note {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
   }
 </style>
 
-<div class="edit-note container">
+<div class="edit-note container mt-3 mb-3">
+  <h1>Edit Note</h1>
+
   {#await notePromise}
     Loading Note...
   {:then note}

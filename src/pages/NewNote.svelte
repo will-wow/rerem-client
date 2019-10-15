@@ -15,8 +15,23 @@
   const onDelete = () => page.show("/");
 </script>
 
-<div class="container">
+<style>
+  .new-note {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+</style>
+
+<div class="new-note container mt-3 mb-3">
   <h1>Create Anonymous Note</h1>
+
+  <p>
+    Create an anonymous note. You can save the link, and share it with your
+    friends. But Rerem is a totally anonymous, totally encrypted service. So if
+    you lose the link, we can't recover it. To save notes, you can
+    <a href="/signup">Create an account</a>
+  </p>
 
   <Note {note} {onCreate} {onDelete} />
 </div>
