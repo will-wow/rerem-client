@@ -33,7 +33,9 @@
 </style>
 
 <div class="wrapper">
+  <!-- svelte-ignore a11y-autofocus -->
   <input
+    autofocus
     class="form-control"
     placeholder="Title"
     name="title"
