@@ -23,8 +23,6 @@
 
   let noteSavePromise;
   const handleSubmit = async () => {
-    isSaved = false;
-
     noteSavePromise = onSubmit(note, accessData);
 
     const response = await noteSavePromise;
