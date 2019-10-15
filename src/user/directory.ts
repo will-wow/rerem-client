@@ -121,7 +121,7 @@ export const addNote = (accessData: AccessData.T): void => {
   store.update(
     okThen(data => {
       if (data.directory[id]) return data;
-      const directory = { ...data.directory, [id]: accessData };
+      const directory = { [id]: accessData, ...data.directory };
 
       const newData = {
         ...data,
