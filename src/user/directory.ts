@@ -1,6 +1,5 @@
 import _ from "lodash";
 import {
-  pipeAsync,
   okThen,
   error,
   ok,
@@ -12,6 +11,7 @@ import {
   resultToBoolean,
   either
 } from "result-async";
+import { pipeA } from "pipeout";
 import { writable, get, derived } from "svelte/store";
 
 import * as Note from "notes/note";
@@ -65,10 +65,11 @@ export const signUp = async (
 ): ResultP<DirectoryData, string> => {
   const accessData = await AccessData.generateKeys(server);
 
-  return pipeAsync(
-    Note.createNote({ body: "{}" }, accessData),
-    okThen(({ id }) => storeDirectory({}, { ...accessData, id }))
-  );
+  // prettier-ignore
+  return pipeA
+    (Note.createNote({ body: "{}" }, accessData))
+    (okThen(({ id }) => storeDirectory({}, { ...accessData, id })))
+    .value
 };
 
 /** Load a directory, given new credentials */
@@ -78,12 +79,13 @@ export const logIn = (
 ): ResultP<DirectoryData, string> => {
   const accessData = AccessData.decodeAccessParams(accessParam, id);
 
-  return pipeAsync(
-    accessData,
-    Note.fetchAndDecryptNote,
-    okChain(noteToDirectory),
-    okThen(x => storeDirectory(x, accessData))
-  );
+  // prettier-ignore
+  return pipeA
+    (accessData)
+    (Note.fetchAndDecryptNote)
+    (okChain(noteToDirectory))
+    (okThen(x => storeDirectory(x, accessData)))
+    .value
 };
 
 export const logOut = () => {
@@ -102,12 +104,13 @@ export const logInFromStorage = async (): ResultP<DirectoryData, string> => {
   const accessData = accessDataResult.ok;
   if (!AccessData.isValid(accessData)) return error("invalid");
 
-  return pipeAsync(
-    accessData,
-    Note.fetchAndDecryptNote,
-    okChain(noteToDirectory),
-    okThen(x => storeDirectory(x, accessData))
-  );
+  // prettier-ignore
+  return pipeA
+    (accessData)
+    (Note.fetchAndDecryptNote)
+    (okChain(noteToDirectory))
+    (okThen(x => storeDirectory(x, accessData)))
+    .value
 };
 
 /** Save a new note to the directory */

@@ -1,5 +1,6 @@
 <script>
-  import { pipeAsync, okThen } from "result-async";
+  import { okThen } from "result-async";
+  import { pipeA } from "pipeout";
   import * as Note from "notes/note";
   import { accessList, loggedIn, directory, removeNote } from "user/directory";
   import NoteSummary from "notes/NoteSummary.svelte";
@@ -16,10 +17,11 @@
       : notes;
 
   const fetchNotes = accessList => {
-    pipeAsync(
-      Note.fetchNotes(accessList),
-      okThen(newNotes => (notes = newNotes))
-    );
+    // prettier-ignore
+    pipeA
+      (Note.fetchNotes(accessList))
+      (okThen(newNotes => (notes = newNotes)))
+      .value
   };
 
   $: fetchNotes($accessList);

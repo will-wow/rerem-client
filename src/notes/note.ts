@@ -5,10 +5,10 @@ import {
   Result,
   ok,
   allOkAsync,
-  pipeAsync,
   okChain,
   errorRescue
 } from "result-async";
+import { pipeA } from "pipeout";
 import * as Api from "../api";
 import * as Crypto from "../crypto";
 import * as AccessData from "./access-data";
@@ -42,20 +42,26 @@ const accessDataToRequest = (accessData: AccessData.T): NoteLookupRequest =>
 export const fetchNotes = (
   accessData: AccessData.T[]
 ): ResultP<Note[], unknown> =>
-  pipeAsync(
-    accessData,
-    fp.map(data =>
+  // prettier-ignore
+  pipeA
+    (accessData)
+    (fp.map(data =>
       fetchAndDecryptNote(data).then(
         errorRescue(() => ok({ id: data.id, body: "<DELETED>" }))
       )
-    ),
-    allOkAsync
-  );
+    ))
+    (allOkAsync)
+    .value;
 
 export const fetchAndDecryptNote = (
   accessData: AccessData.T
 ): ResultP<Note, string> => {
-  return pipeAsync(accessData, fetchNote, okChain(decryptNote(accessData)));
+  // prettier-ignore
+  return pipeA
+    (accessData)
+    (fetchNote)
+    (okChain(decryptNote(accessData)))
+    .value
 };
 
 export const fetchNote = (

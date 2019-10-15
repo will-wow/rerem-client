@@ -1,5 +1,6 @@
 <script>
-  import { pipeAsync, okThen } from "result-async";
+  import { okThen } from "result-async";
+  import { pipeA } from "pipeout";
   import { directory, defaultServer, removeNote } from "user/directory";
   import * as AccessData from "./access-data";
   import NoteForm from "./NoteForm.svelte";
@@ -24,23 +25,25 @@
   $: onSubmit = note.id
     ? updateNote
     : (...args) =>
-        pipeAsync(
-          createNote(...args),
-          okThen(newNote => {
+        // prettier-ignore
+        pipeA
+          (createNote(...args))
+          (okThen(newNote => {
             noteAccessData = { ...noteAccessData, id: newNote.id };
             onCreate(note, noteAccessData);
             return newNote;
-          })
-        );
+          }))
+          .value;
 
   const handleDelete = (note, accessData) => {
-    pipeAsync(
-      deleteNote(note, accessData),
-      okThen(() => {
+    // prettier-ignore
+    pipeA
+      (deleteNote(note, accessData))
+      (okThen(() => {
         removeNote(accessData);
         onDelete(note);
-      })
-    );
+      }))
+      .value;
   };
 </script>
 
