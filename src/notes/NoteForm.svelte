@@ -1,6 +1,6 @@
 <script>
-  import { either } from "result-async";
   import * as Directory from "user/directory";
+  import { directory } from "user/directory";
   import { openShare } from "share/open-share";
   import { areYouSure } from "modal/are-you-sure";
   import IconButton from "form/IconButton.svelte";
@@ -98,17 +98,33 @@
 
       {#if canEdit}
         <IconButton
-          type="button"
           class="btn btn-outline-dark w-100 ml-3"
           on:click={() => (preview = !preview)}
           description={editing ? 'Preview' : 'Edit'}
           icon={editing ? 'eye' : 'code'} />
 
+        {#if Directory.inDirectory(accessData.id, $directory)}
+          <IconButton
+            class="btn btn-outline-dark w-100 ml-3"
+            on:click={() => {
+              areYouSure(() => Directory.removeNote(accessData), 'This will remove the note from your directory, but will NOT delete it. Anyone will access will continue to be able to see the note.');
+            }}
+            description="Remove"
+            title="Remove note from my directory"
+            icon="remove-circle" />
+        {:else}
+          <IconButton
+            class="btn btn-outline-dark w-100 ml-3"
+            on:click={() => Directory.addNote(accessData)}
+            description="Add"
+            title="Add note to my directory"
+            icon="add-circle" />
+        {/if}
+
         <IconButton
-          type="button"
           class="btn btn-outline-dark w-100 ml-3"
           on:click={() => {
-            areYouSure(() => onDelete(note, accessData));
+            areYouSure(() => onDelete(note, accessData), 'This will delete the note forever. If anyone else has access to this note, they will not be able to see it. This is irreversible.');
           }}
           description="Delete"
           icon="close" />

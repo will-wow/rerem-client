@@ -162,6 +162,9 @@ export const removeNote = (accessData: AccessData.T): void => {
   );
 };
 
+export const inDirectory = (id: string, directory: Directory): boolean =>
+  Boolean(directory[id]);
+
 const noteToDirectory = (note: Note.T): Result<Directory, string> => {
   const result = parseJson<Directory>(note.body, "invalid directory");
 
