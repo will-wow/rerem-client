@@ -21,6 +21,8 @@
 <style global>
   :root {
     --blue: blue;
+    --dark-purple: #11002b;
+    --light-purple: #e5d5ff;
   }
 
   .app {

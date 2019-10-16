@@ -4,8 +4,8 @@
 
 <style>
   nav {
-    background: #11002b;
-    color: #e5d5ff;
+    background: var(--dark-purple);
+    color: var(--light-purple);
     position: sticky;
     top: 0;
     z-index: 1;
@@ -13,7 +13,7 @@
   }
 
   a {
-    color: #e5d5ff;
+    color: var(--light-purple);
   }
 
   .items {
