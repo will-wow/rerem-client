@@ -17,11 +17,9 @@
       : notes;
 
   const fetchNotes = accessList => {
-    // prettier-ignore
-    pipeA
-      (Note.fetchNotes(accessList))
-      (okThen(newNotes => (notes = newNotes)))
-      .value
+    pipeA(Note.fetchNotes(accessList))
+      .thru(okThen(newNotes => (notes = newNotes)))
+      .value();
   };
 
   $: fetchNotes($accessList);

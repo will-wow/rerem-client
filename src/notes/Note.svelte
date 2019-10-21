@@ -25,25 +25,25 @@
   $: onSubmit = note.id
     ? updateNote
     : (...args) =>
-        // prettier-ignore
-        pipeA
-          (createNote(...args))
-          (okThen(newNote => {
-            noteAccessData = { ...noteAccessData, id: newNote.id };
-            onCreate(note, noteAccessData);
-            return newNote;
-          }))
-          .value;
+        pipeA(createNote(...args))
+          .thru(
+            okThen(newNote => {
+              noteAccessData = { ...noteAccessData, id: newNote.id };
+              onCreate(note, noteAccessData);
+              return newNote;
+            })
+          )
+          .value();
 
   const handleDelete = (note, accessData) => {
-    // prettier-ignore
-    pipeA
-      (deleteNote(note, accessData))
-      (okThen(() => {
-        removeNote(accessData);
-        onDelete(note);
-      }))
-      .value;
+    pipeA(deleteNote(note, accessData))
+      .thru(
+        okThen(() => {
+          removeNote(accessData);
+          onDelete(note);
+        })
+      )
+      .value();
   };
 </script>
 

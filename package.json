@@ -55,7 +55,7 @@
     "markdown-it": "^10.0.0",
     "node-forge": "^0.8.5",
     "page": "^1.11.4",
-    "pipeout": "^0.0.2",
+    "pipeout": "^0.1.0",
     "qrcode": "^1.4.2",
     "query-string": "^6.8.2",
     "regenerator-runtime": "^0.13.3",

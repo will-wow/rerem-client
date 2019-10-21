@@ -65,11 +65,9 @@ export const signUp = async (
 ): ResultP<DirectoryData, string> => {
   const accessData = await AccessData.generateKeys(server);
 
-  // prettier-ignore
-  return pipeA
-    (Note.createNote({ body: "{}" }, accessData))
-    (okThen(({ id }) => storeDirectory({}, { ...accessData, id })))
-    .value
+  return pipeA(Note.createNote({ body: "{}" }, accessData))
+    .thru(okThen(({ id }) => storeDirectory({}, { ...accessData, id })))
+    .value();
 };
 
 /** Load a directory, given new credentials */
@@ -79,13 +77,11 @@ export const logIn = (
 ): ResultP<DirectoryData, string> => {
   const accessData = AccessData.decodeAccessParams(accessParam, id);
 
-  // prettier-ignore
-  return pipeA
-    (accessData)
-    (Note.fetchAndDecryptNote)
-    (okChain(noteToDirectory))
-    (okThen(x => storeDirectory(x, accessData)))
-    .value
+  return pipeA(accessData)
+    .thru(Note.fetchAndDecryptNote)
+    .thru(okChain(noteToDirectory))
+    .thru(okThen(x => storeDirectory(x, accessData)))
+    .value();
 };
 
 export const logOut = () => {
@@ -104,13 +100,11 @@ export const logInFromStorage = async (): ResultP<DirectoryData, string> => {
   const accessData = accessDataResult.ok;
   if (!AccessData.isValid(accessData)) return error("invalid");
 
-  // prettier-ignore
-  return pipeA
-    (accessData)
-    (Note.fetchAndDecryptNote)
-    (okChain(noteToDirectory))
-    (okThen(x => storeDirectory(x, accessData)))
-    .value
+  return pipeA(accessData)
+    .thru(Note.fetchAndDecryptNote)
+    .thru(okChain(noteToDirectory))
+    .thru(okThen(x => storeDirectory(x, accessData)))
+    .value();
 };
 
 /** Save a new note to the directory */

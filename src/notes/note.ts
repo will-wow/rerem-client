@@ -42,26 +42,24 @@ const accessDataToRequest = (accessData: AccessData.T): NoteLookupRequest =>
 export const fetchNotes = (
   accessData: AccessData.T[]
 ): ResultP<Note[], unknown> =>
-  // prettier-ignore
-  pipeA
-    (accessData)
-    (fp.map(data =>
-      fetchAndDecryptNote(data).then(
-        errorRescue(() => ok({ id: data.id, body: "<DELETED>" }))
+  pipeA(accessData)
+    .thru(
+      fp.map(data =>
+        fetchAndDecryptNote(data).then(
+          errorRescue(() => ok({ id: data.id, body: "<DELETED>" }))
+        )
       )
-    ))
-    (allOkAsync)
-    .value;
+    )
+    .thru(allOkAsync)
+    .value();
 
 export const fetchAndDecryptNote = (
   accessData: AccessData.T
 ): ResultP<Note, string> => {
-  // prettier-ignore
-  return pipeA
-    (accessData)
-    (fetchNote)
-    (okChain(decryptNote(accessData)))
-    .value
+  return pipeA(accessData)
+    .thru(fetchNote)
+    .thru(okChain(decryptNote(accessData)))
+    .value();
 };
 
 export const fetchNote = (

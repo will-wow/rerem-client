@@ -6109,10 +6109,10 @@ pinkie@^2.0.0:
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
 
-pipeout@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/pipeout/-/pipeout-0.0.2.tgz#c138439f4cd155593d8a9e16e1414a557d6da569"
-  integrity sha512-Bj9+CIY1AW2tfdk4NhjUlrYlLcxGem9TPx7rCiL3ebVegryJa6t/d0UWpwSXlQzi72NvenVNafy5mleEgVL+ug==
+pipeout@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/pipeout/-/pipeout-0.1.0.tgz#ce42c1d96eca82b313278e110c74641699522636"
+  integrity sha512-wI5HV+CRxL/d9uBSG6suvnGgU/aSbduBI8ERhX9RTHFGXYGkEKasRdd5nP/FPHpE2VR1+gH6ufgQu1SlqFzKLg==
 
 pirates@^4.0.1:
   version "4.0.1"
