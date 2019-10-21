@@ -14,6 +14,7 @@
 
   let isSaved = false;
   let isSaving = false;
+  let isDirty = false;
   let lastResponse = null;
   let preview = false;
 
@@ -35,6 +36,7 @@
     lastResponse.map(({ id }) => {
       Directory.addNote({ ...accessData, id });
       isSaved = true;
+      isDirty = false;
     });
   };
 </script>
@@ -62,7 +64,7 @@
 <form class="note" on:submit|preventDefault={handleSubmit}>
   {#if editing}
     <div class="note-body">
-      <NoteEditor bind:note />
+      <NoteEditor bind:note onChange={() => (isDirty = true)} />
     </div>
   {:else}
     <div class="note-body">
@@ -70,8 +72,14 @@
     </div>
   {/if}
   {#if canEdit}
-    <button type="submit" class="btn btn-dark w-100 mt-3">
+    <button
+      type="submit"
+      class="btn btn-dark w-100 mt-3"
+      title={isDirty ? 'Unsaved Changes' : 'Save note'}>
       {isSaved ? 'Update' : 'Create'}
+      {#if isDirty}
+        <ion-icon name="alert" />
+      {/if}
       {#if isSaving}
         <span
           class="spinner-border spinner-border-sm"

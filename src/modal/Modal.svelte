@@ -32,6 +32,9 @@
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
+    cursor: auto;
+    /* Prevent clicks from going through to background */
+    overflow: auto;
 
     width: 100%;
     height: 100%;
@@ -64,6 +67,7 @@
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 1rem;
+    cursor: pointer;
   }
 
   @media (min-width: 768px) {
@@ -81,11 +85,14 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div class="modal-background" on:click={onClose}>
-  <div class={`modal-foreground modal-${index}`} class:small>
-    <div class="close-header">
+  <div
+    class={`modal-foreground modal-${index}`}
+    class:small
+    on:click|stopPropagation>
+    <div class="close-header" on:click={onClose}>
       <ion-icon name="close" />
     </div>
-    <div class="contents" on:click|stopPropagation>
+    <div class="contents">
       <slot {onClose} />
     </div>
   </div>

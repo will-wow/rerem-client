@@ -2,6 +2,7 @@
   import * as Note from "./note";
 
   export let note;
+  export let onChange = () => {};
 
   let title;
   let contents;
@@ -17,6 +18,8 @@
     const newTitle = name === "title" ? value : title;
     const newContents = name === "contents" ? value : contents;
     note.body = `${newTitle}\n${newContents}`;
+
+    onChange(note);
   };
 </script>
 
