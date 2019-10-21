@@ -36,6 +36,7 @@
   <!-- svelte-ignore a11y-autofocus -->
   <input
     autofocus
+    autocomplete="off"
     class="form-control"
     placeholder="Title"
     name="title"
