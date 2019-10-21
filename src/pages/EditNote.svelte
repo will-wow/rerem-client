@@ -8,11 +8,15 @@
   export let query;
   export let id;
 
-  const accessData = query.access
+  // Convert query params to access data
+  const queryAccessData = query.access
     ? AccessData.decodeAccessParams(query.access, id)
-    : $directory[id];
+    : null;
 
-  const notePromise = fetchAndDecryptNote(accessData);
+  // Merge in data from directory
+  $: accessData = { ...$directory[id], ...queryAccessData };
+
+  $: notePromise = fetchAndDecryptNote(accessData);
 
   const onDelete = () => page.show("/");
 </script>

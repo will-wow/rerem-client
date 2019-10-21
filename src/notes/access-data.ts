@@ -61,13 +61,18 @@ export const upgradeAccessData = (
   if (!data.encryptionKey)
     throw new Error("Invalid Access Data, missing EncryptionKey");
 
-  return {
+  const accessData: NoteAccessData = {
     id: data.id,
     encryptionKey: data.encryptionKey,
-    editKey: data.editKey,
 
     server: data.server || process.env.API || ""
   };
+
+  if (data.editKey) {
+    accessData.editKey = data.editKey;
+  }
+
+  return accessData;
 };
 
 const toAccessParam = (
