@@ -2,6 +2,7 @@
   import * as Directory from "user/directory";
   import { openShare } from "share/open-share";
   import { areYouSure } from "modal/are-you-sure";
+  import { startLoading, finishLoading } from "loading/loading-store";
   import IconButton from "form/IconButton.svelte";
   import NoteEditor from "./NoteEditor.svelte";
   import NotePreview from "./NotePreview.svelte";
@@ -13,7 +14,6 @@
   export let accessData;
 
   let isSaved = false;
-  let isSaving = false;
   let isDirty = false;
   let lastResponse = null;
   let preview = false;
@@ -26,12 +26,12 @@
   }
 
   const handleSubmit = async () => {
-    isSaving = true;
+    startLoading();
     lastResponse = null;
 
     lastResponse = await onSubmit(note, accessData);
 
-    isSaving = false;
+    finishLoading();
 
     lastResponse.map(({ id }) => {
       Directory.addNote({ ...accessData, id });
@@ -79,13 +79,6 @@
       {isSaved ? 'Update' : 'Create'}
       {#if isDirty}
         <ion-icon name="alert" />
-      {/if}
-      {#if isSaving}
-        <span
-          class="spinner-border spinner-border-sm"
-          role="status"
-          aria-hidden="true" />
-        <span class="sr-only">Loading...</span>
       {/if}
     </button>
   {/if}

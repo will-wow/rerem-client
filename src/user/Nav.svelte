@@ -1,4 +1,5 @@
 <script>
+  import LoadingSpinner from "loading/LoadingSpinner";
   import { loggedIn } from "./directory";
 </script>
 
@@ -38,6 +39,7 @@
         <strong>Rerem</strong>
       </a>
     </li>
+    <LoadingSpinner />
     {#if $loggedIn}
       <li>
         <a href="/credentials" title="User Profile">
