@@ -1,36 +1,15 @@
-# Svelte TypeScript Template
+# Rerem Client
 
-This is a project template for [Svelte 3](https://svelte.dev) apps. It lives at [github.com/will-wow/svelte-typescript-template](https://github.com/will-wow/svelte-typescript-template).
+The [Svelte](https://svelte.dev) frontend for [Rerem](https://rerem.surge.sh), a totally anonymous, totally encrypted notes service.
 
-**This template includes:**
+## Links
 
-- Transpiling ES6 and TypeScript with Babel
-- Testing with Jest and [Svelte-Testing-Library](https://github.com/testing-library/svelte-testing-library)
-- Linting/Formatting with Eslint and Prettier
+- The backlog is in a [Rerem note](https://rerem.surge.sh/notes/89332d0a-b737-4789-a9af-c1cf6441ef56#?access=eyJrIjoiRnAwejBXcml3K1huMCtaYXFqKzNFUT09IiwicyI6Imh0dHBzOi8vcmVyZW0uZ2lnYWxpeGlyYXBwLmNvbS9hcGkifQ%3D%3D)
 
-**Things that aren't TypeScript:**
+- [Elixir Backend](https://github.com/will-wow/rerem-elixir)
 
-- Svelte doesn't work with TypeScript in `.svelte` files yet. This setup just lets you use typescript for all of your stores and other non-component files.
-- Svelte-Testing-Library doesn't have typescript definitions yet, so the component test is also still in javascript.
 
-**If you don't want to use TypeScript**
-
-This uses Babel to compile the ts files, so if you just want babel for ES6,
-you can remove references to TypeScript in
-`package.json`, `.babelrc`, and `.eslintrc`.
-
-## Create a new project
-
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
-
-```bash
-npx degit will-wow/svelte-typescript-template
-cd svelte-app
-```
-
-_Note that you will need to have [Node.js](https://nodejs.org) installed._
-
-## Get started
+## Development
 
 Install the dependencies...
 
@@ -68,21 +47,12 @@ yarn test --coverage
 open coverage/lcov-report/index.html
 ```
 
-**Importing TS files**
-
-In your `.svelte` files, you should include the `.ts` extension when importing TypeScript files.
-For some reason Jest won't follow the import otherwise.
-
 **Note on caching:**
 
 [jest-transform-svelte](https://github.com/rspieker/jest-transform-svelte) seems to have an issue with caching. If you find
 that a test is using an old version of an imported file, try `yarn jest --clearCache`, and then re-run `yarn test`.
 
 ## Deploying to the web
-
-### With [surge](https://surge.sh/)
-
-Update the `deploy-surge` script in `package.json` with your surge domain.
 
 ```bash
 yarn deploy
