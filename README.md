@@ -8,7 +8,6 @@ The [Svelte](https://svelte.dev) frontend for [Rerem](https://rerem.surge.sh), a
 
 - [Elixir Backend](https://github.com/will-wow/rerem-elixir)
 
-
 ## Development
 
 Install the dependencies...

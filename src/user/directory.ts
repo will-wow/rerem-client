@@ -165,6 +165,14 @@ export const removeNote = (accessData: AccessData.T): void => {
 export const inDirectory = (id: string, directory: Directory): boolean =>
   Boolean(directory[id]);
 
+export const differentFromDirectory = (
+  accessData: AccessData.T,
+  directory: Directory
+): boolean => {
+  if (!accessData.id) return false;
+  return !_.isEqual(directory[accessData.id], accessData);
+};
+
 const noteToDirectory = (note: Note.T): Result<Directory, string> => {
   const result = parseJson<Directory>(note.body, "invalid directory");
 

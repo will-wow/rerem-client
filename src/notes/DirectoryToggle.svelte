@@ -4,6 +4,7 @@
     addNote,
     removeNote,
     inDirectory,
+    differentFromDirectory,
     loggedIn
   } from "user/directory";
   import IconButton from "form/IconButton.svelte";
@@ -13,7 +14,21 @@
 </script>
 
 {#if $loggedIn}
-  {#if inDirectory(accessData.id, $directory)}
+  {#if !inDirectory(accessData.id, $directory)}
+    <IconButton
+      class="btn btn-outline-dark w-100 ml-3"
+      on:click={() => addNote(accessData)}
+      description="Add"
+      title="Add note to my directory"
+      icon="add-circle" />
+  {:else if differentFromDirectory(accessData, $directory)}
+    <IconButton
+      class="btn btn-outline-dark w-100 ml-3"
+      on:click={() => addNote(accessData)}
+      description="Update"
+      title="Update permissions"
+      icon="add-circle" />
+  {:else}
     <IconButton
       class="btn btn-outline-dark w-100 ml-3"
       on:click={() => {
@@ -22,12 +37,5 @@
       description="Remove"
       title="Remove note from my directory"
       icon="remove-circle" />
-  {:else}
-    <IconButton
-      class="btn btn-outline-dark w-100 ml-3"
-      on:click={() => addNote(accessData)}
-      description="Add"
-      title="Add note to my directory"
-      icon="add-circle" />
   {/if}
 {/if}
